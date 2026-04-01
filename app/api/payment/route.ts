@@ -8,8 +8,7 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY
-```}`
+        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY}`
       },
       body: JSON.stringify({
         InvoiceAmount: amount,
@@ -27,8 +26,7 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY
-```}`
+        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY}`
       },
       body: JSON.stringify({
         PaymentMethodId: initiateData.Data.PaymentMethods[0].PaymentMethodId,
@@ -37,8 +35,8 @@ export async function POST(request: Request) {
         CustomerMobile: phone,
         InvoiceValue: amount,
         CurrencyIso: 'QAR',
-        CallBackUrl: 'http://localhost:3000/payment-success',
-        ErrorUrl: 'http://localhost:3000/payment-error',
+        CallBackUrl: 'https://renew-store.vercel.app/payment-success',
+        ErrorUrl: 'https://renew-store.vercel.app/payment-error',
         Language: 'en',
         DisplayCurrencyIso: 'QAR'
       })
