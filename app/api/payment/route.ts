@@ -8,7 +8,8 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MYFATOORAH_API_KEY}`
+        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY
+```}`
       },
       body: JSON.stringify({
         InvoiceAmount: amount,
@@ -26,7 +27,8 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MYFATOORAH_API_KEY}`
+        'Authorization': `Bearer ${process.env.MYFATOORAH_API_KEY
+```}`
       },
       body: JSON.stringify({
         PaymentMethodId: initiateData.Data.PaymentMethods[0].PaymentMethodId,
