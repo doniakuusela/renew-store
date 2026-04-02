@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
 
 const demoProducts = [
   { id:1, emoji:'👗', title:'Massimo Dutti Silk Blouse', price:120, category:'Fashion', condition:'Like new', seller:'Sara A.' },
@@ -14,16 +15,41 @@ const demoProducts = [
 
 export default function Home() {
   const [category, setCategory] = useState('All')
+  const [user, setUser] = useState<any>(null)
   const categories = ['All', 'Fashion', 'Furniture', 'Kids', 'Sports']
   const filtered = category === 'All' ? demoProducts : demoProducts.filter(p => p.category === category)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setUser(session.user)
+    })
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+  }, [])
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    setUser(null)
+  }
 
   return (
     <main style={{fontFamily:'Georgia, serif', background:'#F5F0E8', minHeight:'100vh'}}>
       <nav style={{background:'rgba(245,240,232,0.95)', borderBottom:'1px solid #D9CEBC', padding:'0 5%', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between', position:'fixed', top:0, left:0, right:0, zIndex:100}}>
         <div style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600'}}>🌿 Renew Store</div>
-        <div style={{display:'flex', gap:'16px'}}>
-          <button onClick={() => window.location.href='/auth'} style={{background:'none', border:'1.5px solid #2D5A3D', color:'#2D5A3D', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Log in</button>
-          <button onClick={() => window.location.href='/signup'} style={{background:'#2D5A3D', border:'none', color:'white', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Sign up</button>
+        <div style={{display:'flex', gap:'16px', alignItems:'center'}}>
+          {user ? (
+            <>
+              <span style={{fontSize:'13px', color:'#2D5A3D'}}>👋 {user.email?.split('@')[0]}</span>
+              <button onClick={() => window.location.href='/chat'} style={{background:'none', border:'1.5px solid #2D5A3D', color:'#2D5A3D', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Messages</button>
+              <button onClick={handleSignOut} style={{background:'#2D5A3D', border:'none', color:'white', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Sign out</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => window.location.href='/auth'} style={{background:'none', border:'1.5px solid #2D5A3D', color:'#2D5A3D', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Log in</button>
+              <button onClick={() => window.location.href='/signup'} style={{background:'#2D5A3D', border:'none', color:'white', padding:'8px 18px', cursor:'pointer', borderRadius:'2px', fontSize:'13px'}}>Sign up</button>
+            </>
+          )}
         </div>
       </nav>
       <section style={{paddingTop:'68px', minHeight:'90vh', display:'flex', alignItems:'center', padding:'120px 8% 80px'}}>
@@ -32,7 +58,7 @@ export default function Home() {
           <h1 style={{fontSize:'72px', fontWeight:'300', lineHeight:'1.06', color:'#1E1E1E', marginBottom:'24px'}}>Give things<br/>a <em style={{color:'#2D5A3D'}}>second</em><br/>life.</h1>
           <p style={{fontSize:'16px', color:'#7A7068', maxWidth:'400px', lineHeight:'1.8', marginBottom:'40px', fontFamily:'sans-serif'}}>Buy and sell pre-loved fashion, furniture, kids items and more — locally, in Qatar.</p>
           <div style={{display:'flex', gap:'20px', alignItems:'center'}}>
-            <button onClick={() => window.location.href='/auth'} style={{background:'#2D5A3D', color:'white', border:'none', padding:'15px 36px', fontSize:'13px', cursor:'pointer', letterSpacing:'0.05em', textTransform:'uppercase'}}>Start browsing</button>
+            <button onClick={() => window.location.href=user?'/sell':'/auth'} style={{background:'#2D5A3D', color:'white', border:'none', padding:'15px 36px', fontSize:'13px', cursor:'pointer', letterSpacing:'0.05em', textTransform:'uppercase'}}>Start browsing</button>
             <button onClick={() => window.location.href='/sell'} style={{background:'none', border:'none', color:'#7A7068', fontSize:'13px', cursor:'pointer'}}>Become a seller →</button>
           </div>
           <div style={{display:'flex', gap:'40px', marginTop:'52px', paddingTop:'36px', borderTop:'1px solid #D9CEBC'}}>
