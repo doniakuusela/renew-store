@@ -82,7 +82,7 @@ export default function Home() {
         </div>
         <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'22px'}}>
           {filtered.map(p => (
-            <div key={p.id} style={{background:'#F5F0E8', borderRadius:'4px', overflow:'hidden', cursor:'pointer', transition:'transform 0.2s'}}
+            <div key={p.id} onClick={() => window.location.href=`/product/${p.id}`} style={{background:'#F5F0E8', borderRadius:'4px', overflow:'hidden', cursor:'pointer', transition:'transform 0.2s'}}
               onMouseEnter={e => e.currentTarget.style.transform='translateY(-4px)'}
               onMouseLeave={e => e.currentTarget.style.transform='translateY(0)'}>
               <div style={{height:'200px', background:'#EDE6D6', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'64px'}}>
