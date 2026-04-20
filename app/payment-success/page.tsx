@@ -4,12 +4,34 @@ import { supabase } from '../lib/supabase'
 
 export default function PaymentSuccess() {
   const [countdown, setCountdown] = useState(5)
+  const [orderCreated, setOrderCreated] = useState(false)
 
   useEffect(() => {
-    // Send confirmation emails
-    async function sendEmails() {
+    async function createOrder() {
       const { data: { session } } = await supabase.auth.getSession()
-      if (session?.user?.email) {
+      if (!session?.user?.email) return
+
+      // Get product info from URL
+      const params = new URLSearchParams(window.location.search)
+      const productTitle = params.get('title') || 'Item'
+      const productEmoji = params.get('emoji') || '📦'
+      const sellerEmail = params.get('seller_email') || 'renewstoreqa@gmail.com'
+      const amount = parseFloat(params.get('amount') || '0')
+
+      // Create order in database
+      const { data, error } = await supabase.from('orders').insert({
+        buyer_id: session.user.id,
+        buyer_email: session.user.email,
+        seller_email: sellerEmail,
+        product_title: productTitle,
+        product_emoji: productEmoji,
+        amount: amount,
+        status: 'confirmed'
+      }).select().single()
+
+      if (!error) {
+        setOrderCreated(true)
+
         // Email to buyer
         await fetch('/api/send-email', {
           method: 'POST',
@@ -17,32 +39,44 @@ export default function PaymentSuccess() {
           body: JSON.stringify({
             to: session.user.email,
             subject: '✅ Payment confirmed — Renew Store',
-            message: 'Your payment has been confirmed! The seller will contact you shortly via chat to arrange pickup. You have 24 hours after receiving the item to report any issues.',
+            message: `Your payment of QAR ${amount} for "${productTitle}" has been confirmed! The seller will contact you via chat to arrange pickup.`,
             type: 'order_confirmed'
           })
         })
 
-        // Email to store admin
+        // Email to seller
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: sellerEmail,
+            subject: '🛍️ You have a new order — Renew Store',
+            message: `Great news! You have sold "${productTitle}" for QAR ${amount}. Please contact the buyer via chat to arrange pickup.`,
+            type: 'order_confirmed'
+          })
+        })
+
+        // Email to admin
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             to: 'renewstoreqa@gmail.com',
-            subject: '🛍️ New order received — Renew Store',
-            message: `New order from ${session.user.email}. Please check admin panel.`,
+            subject: '💰 New order — Renew Store',
+            message: `New order #${data.id}: ${productTitle} · QAR ${amount} · Buyer: ${session.user.email} · Seller: ${sellerEmail}`,
             type: 'order_confirmed'
           })
         })
       }
     }
-    sendEmails()
 
-    // Countdown to chat
+    createOrder()
+
     const timer = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(timer)
-          window.location.href = '/chat'
+          window.location.href = '/orders'
           return 0
         }
         return prev - 1
@@ -55,33 +89,25 @@ export default function PaymentSuccess() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px'}}>
       <div style={{background:'white', padding:'48px', borderRadius:'4px', textAlign:'center', maxWidth:'480px', width:'100%', boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
-        
         <div style={{fontSize:'64px', marginBottom:'16px'}}>🎉</div>
-        
         <h1 style={{fontFamily:'Georgia, serif', fontSize:'28px', fontWeight:'300', marginBottom:'12px', color:'#1E1E1E'}}>Payment successful!</h1>
-        
         <div style={{background:'#EBF2EC', padding:'16px', borderRadius:'4px', marginBottom:'24px'}}>
           <p style={{fontSize:'14px', color:'#2D5A3D', fontWeight:'500', marginBottom:'4px'}}>✅ Your order is confirmed</p>
-          <p style={{fontSize:'13px', color:'#4A4A4A', lineHeight:'1.7'}}>A confirmation email has been sent to you. The seller will contact you via chat to arrange pickup.</p>
+          <p style={{fontSize:'13px', color:'#4A4A4A', lineHeight:'1.7'}}>A confirmation email has been sent to you. The seller has also been notified and will contact you shortly.</p>
         </div>
-
         <div style={{background:'#F5F0E8', padding:'16px', borderRadius:'4px', marginBottom:'24px'}}>
           <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'4px'}}>⏱️ 24h buyer protection</p>
           <p style={{fontSize:'12px', color:'#7A7068', lineHeight:'1.6'}}>After receiving the item, you have 24 hours to report any issues. If no dispute is raised, payment is released to the seller.</p>
         </div>
-
         <p style={{fontSize:'14px', color:'#2D5A3D', fontWeight:'500', marginBottom:'16px'}}>
-          Opening chat in {countdown} seconds...
+          Redirecting to orders in {countdown} seconds...
         </p>
-
-        <button onClick={() => window.location.href='/chat'} style={{width:'100%', background:'#2D5A3D', color:'white', border:'none', padding:'14px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px', marginBottom:'10px'}}>
-          💬 Open chat now
-        </button>
-
-        <button onClick={() => window.location.href='/orders'} style={{width:'100%', background:'none', border:'1.5px solid #D9CEBC', color:'#7A7068', padding:'14px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>
+        <button onClick={() => window.location.href='/orders'} style={{width:'100%', background:'#2D5A3D', color:'white', border:'none', padding:'14px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px', marginBottom:'10px'}}>
           📦 View my orders
         </button>
-
+        <button onClick={() => window.location.href='/chat'} style={{width:'100%', background:'none', border:'1.5px solid #D9CEBC', color:'#7A7068', padding:'14px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>
+          💬 Open chat
+        </button>
       </div>
     </main>
   )
