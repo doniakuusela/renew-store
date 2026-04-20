@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Renew Store <onboarding@resend.dev>',
+      from: 'Renew Store <noreply@renew-store.com>',
       to: [to],
       subject: subject,
       html: html,
