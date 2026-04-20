@@ -4,21 +4,18 @@ import { supabase } from '../lib/supabase'
 
 export default function PaymentSuccess() {
   const [countdown, setCountdown] = useState(5)
-  const [orderCreated, setOrderCreated] = useState(false)
 
   useEffect(() => {
     async function createOrder() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user?.email) return
 
-      // Get product info from URL
       const params = new URLSearchParams(window.location.search)
       const productTitle = params.get('title') || 'Item'
       const productEmoji = params.get('emoji') || '📦'
       const sellerEmail = params.get('seller_email') || 'renewstoreqa@gmail.com'
       const amount = parseFloat(params.get('amount') || '0')
 
-      // Create order in database
       const { data, error } = await supabase.from('orders').insert({
         buyer_id: session.user.id,
         buyer_email: session.user.email,
@@ -30,9 +27,6 @@ export default function PaymentSuccess() {
       }).select().single()
 
       if (!error) {
-        setOrderCreated(true)
-
-        // Email to buyer
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -44,19 +38,17 @@ export default function PaymentSuccess() {
           })
         })
 
-        // Email to seller
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             to: sellerEmail,
             subject: '🛍️ You have a new order — Renew Store',
-            message: `Great news! You have sold "${productTitle}" for QAR ${amount}. Please contact the buyer via chat to arrange pickup.`,
+            message: `Great news! "${productTitle}" sold for QAR ${amount}. Please contact the buyer via chat to arrange pickup.`,
             type: 'order_confirmed'
           })
         })
 
-        // Email to admin
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -95,18 +87,11 @@ export default function PaymentSuccess() {
           <p style={{fontSize:'14px', color:'#2D5A3D', fontWeight:'500', marginBottom:'4px'}}>✅ Your order is confirmed</p>
           <p style={{fontSize:'13px', color:'#4A4A4A', lineHeight:'1.7'}}>A confirmation email has been sent to you. The seller has also been notified and will contact you shortly.</p>
         </div>
-        <div style={{background:'#F5F0E8', padding:'16px', borderRadius:'4px', marginBottom:'24px'}}>
-          <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'4px'}}>⏱️ 24h buyer protection</p>
-          <p style={{fontSize:'12px', color:'#7A7068', lineHeight:'1.6'}}>After receiving the item, you have 24 hours to report any issues. If no dispute is raised, payment is released to the seller.</p>
-        </div>
         <p style={{fontSize:'14px', color:'#2D5A3D', fontWeight:'500', marginBottom:'16px'}}>
           Redirecting to orders in {countdown} seconds...
         </p>
-        <button onClick={() => window.location.href='/orders'} style={{width:'100%', background:'#2D5A3D', color:'white', border:'none', padding:'14px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px', marginBottom:'10px'}}>
+        <button onClick={() => window.location.href='/orders'} style={{width:'100%', background:'#2D5A3D', color:'white', border:'none', padding:'14px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
           📦 View my orders
-        </button>
-        <button onClick={() => window.location.href='/chat'} style={{width:'100%', background:'none', border:'1.5px solid #D9CEBC', color:'#7A7068', padding:'14px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>
-          💬 Open chat
         </button>
       </div>
     </main>
