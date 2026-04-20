@@ -55,6 +55,19 @@ export default function Chat() {
       created_at: new Date().toISOString()
     }
     setMessages(prev => [...prev, msg])
+    
+    // Send email notification to other party
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: 'renewstoreqa@gmail.com',
+        subject: '💬 New message — Renew Store',
+        message: `You have a new message: "${newMessage}"`,
+        type: 'new_message'
+      })
+    })
+
     setNewMessage('')
   }
 
