@@ -145,8 +145,12 @@ export default function Home() {
               <div key={p.id} onClick={() => window.location.href=`/product/${p.id}`} style={{background:'#F5F0E8', borderRadius:'4px', overflow:'hidden', cursor:'pointer', transition:'transform 0.2s'}}
                 onMouseEnter={e => e.currentTarget.style.transform='translateY(-4px)'}
                 onMouseLeave={e => e.currentTarget.style.transform='translateY(0)'}>
-                <div style={{width:'100%', aspectRatio:'1', background:'#EDE6D6', display:'flex', alignItems:'center', justifyContent:'center', fontSize: isMobile ? '44px' : '56px'}}>
-                  {categoryEmojis[p.category] || '📦'}
+                <div style={{width:'100%', aspectRatio:'1', background:'#EDE6D6', display:'flex', alignItems:'center', justifyContent:'center', fontSize: isMobile ? '44px' : '56px', overflow:'hidden'}}>
+                  {p.image_url ? (
+                    <img src={p.image_url} alt={p.title} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+                  ) : (
+                    <span>{categoryEmojis[p.category] || '📦'}</span>
+                  )}
                 </div>
                 <div style={{padding: isMobile ? '10px 12px' : '12px 14px'}}>
                   <div style={{fontSize:'11px', color:'#7A7068', marginBottom:'3px'}}>{p.location}</div>
