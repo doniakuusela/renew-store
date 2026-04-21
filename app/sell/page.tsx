@@ -65,13 +65,13 @@ export default function Sell() {
       condition: condition,
       location: location,
       image_url: imageUrl,
-      status: 'active'
+      status: 'pending'
     })
 
     if (error) {
       setMessage('Error: ' + error.message)
     } else {
-      setMessage('✅ Listing published!')
+      setMessage('✅ Listing submitted! It will be reviewed and published shortly.')
       setTimeout(() => window.location.href = '/', 1500)
     }
     setLoading(false)
@@ -87,7 +87,7 @@ export default function Sell() {
       </nav>
       <div style={{background:'#2D5A3D', padding:'48px 8%'}}>
         <h1 style={{fontFamily:'Georgia,serif', fontSize:'clamp(32px, 5vw, 48px)', fontWeight:'300', color:'white', lineHeight:'1.1'}}>List your item</h1>
-        <p style={{fontSize:'15px', color:'rgba(255,255,255,0.7)', marginTop:'10px'}}>Free. Goes live instantly.</p>
+        <p style={{fontSize:'15px', color:'rgba(255,255,255,0.7)', marginTop:'10px'}}>Free. Reviewed within 24 hours.</p>
       </div>
       <div style={{maxWidth:'680px', margin:'0 auto', padding:'48px 8%'}}>
         
