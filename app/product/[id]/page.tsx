@@ -2,21 +2,20 @@
 import { useState, useEffect, use } from 'react'
 import { supabase } from '../../lib/supabase'
 
-const demoProducts: any = {
-  '1': { id:'1', emoji:'👗', title:'Massimo Dutti Silk Blouse', price:120, category:'Fashion', condition:'Like new', seller:'Sara A.', sellerColor:'#4A7A5A', desc:'Beautiful silk blouse in ivory. Worn twice, dry cleaned. No marks or damage. Perfect for work or events.', location:'Al Waab, Doha' },
-  '2': { id:'2', emoji:'🛋️', title:'Vintage Arc Floor Lamp', price:350, category:'Furniture', condition:'Good', seller:'Ahmed K.', sellerColor:'#7A5A4A', desc:'Stunning arc floor lamp in brass finish. Minor scratch on base. Bulb included. Pickup from The Pearl.', location:'The Pearl, Doha' },
-  '3': { id:'3', emoji:'🧸', title:'Stokke Tripp Trapp High Chair', price:480, category:'Kids', condition:'Like new', seller:'Mona R.', sellerColor:'#4A7A6A', desc:'Iconic Tripp Trapp in natural wood. Used for 8 months. Cleaned and ready. All original parts included.', location:'Al Rayyan' },
-  '4': { id:'4', emoji:'🚴', title:'Trek Road Bike Aluminum', price:1800, category:'Sports', condition:'Good', seller:'James L.', sellerColor:'#4A5A7A', desc:'Trek Domane AL 2 in matte black. Serviced 2 months ago. New tyres, Shimano gearing.', location:'Lusail' },
-  '5': { id:'5', emoji:'👜', title:'Zara Structured Tote Bag', price:95, category:'Fashion', condition:'Like new', seller:'Layla Q.', sellerColor:'#7A4A6A', desc:'Classic structured tote in camel leather-look. Used only 3 times. No marks. Comes with dust bag.', location:'West Bay, Doha' },
-  '6': { id:'6', emoji:'🪑', title:'IKEA Poäng Armchair', price:180, category:'Furniture', condition:'Good', seller:'Rania T.', sellerColor:'#6A7A4A', desc:'Classic Poäng in birch veneer with beige cushion. Very comfortable. Selling due to move.', location:'Al Wakrah' },
-  '7': { id:'7', emoji:'👟', title:'Nike Air Max 270 White', price:220, category:'Sports', condition:'Good', seller:'Omar F.', sellerColor:'#5A4A7A', desc:'Worn 5-6 times. Clean white colourway. No sole wear. Comes in original box.', location:'Madinat Khalifa' },
-  '8': { id:'8', emoji:'🧩', title:'LEGO City Police Bundle', price:160, category:'Kids', condition:'Good', seller:'Dana M.', sellerColor:'#7A6A4A', desc:'3 LEGO City sets. All complete with manuals. Great condition. Smoke-free home.', location:'Al Khor' },
+const categoryEmojis: any = {
+  'Fashion': '👗',
+  'Furniture': '🛋️',
+  'Kids': '🧸',
+  'Sports': '🚴',
+  'Electronics': '📱',
+  'Other': '📦',
 }
 
 export default function Product({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const [user, setUser] = useState<any>(null)
-  const product = demoProducts[id]
+  const [product, setProduct] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -25,7 +24,23 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
     supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
-  }, [])
+    loadProduct()
+  }, [id])
+
+  async function loadProduct() {
+    const { data, error } = await supabase
+      .from('listings')
+      .select('*')
+      .eq('id', id)
+      .single()
+    
+    if (!error && data) {
+      setProduct(data)
+    }
+    setLoading(false)
+  }
+
+  if (loading) return <div style={{display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', fontFamily:'sans-serif'}}>Loading...</div>
 
   if (!product) return (
     <div style={{display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', fontFamily:'sans-serif'}}>
@@ -42,7 +57,8 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
       window.location.href = '/auth'
       return
     }
-    window.location.href = `/checkout?product=${product.id}&amount=${product.price}&title=${encodeURIComponent(product.title)}&seller=${encodeURIComponent(product.seller)}`
+    const emoji = categoryEmojis[product.category] || '📦'
+    window.location.href = `/checkout?product=${product.id}&amount=${product.price}&title=${encodeURIComponent(product.title)}&emoji=${encodeURIComponent(emoji)}&seller_email=renewstoreqa@gmail.com`
   }
 
   return (
@@ -52,11 +68,17 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
         <button onClick={() => window.location.href='/'} style={{fontSize:'13px', color:'#7A7068', background:'none', border:'none', cursor:'pointer'}}>← Back to listings</button>
       </nav>
       <div style={{maxWidth:'1000px', margin:'0 auto', padding:'40px 8%', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px'}}>
+        
         <div>
-          <div style={{width:'100%', aspectRatio:'1', background:'#EDE6D6', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'120px', marginBottom:'12px'}}>
-            {product.emoji}
+          <div style={{width:'100%', aspectRatio:'1', background:'#EDE6D6', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'120px', marginBottom:'12px', overflow:'hidden'}}>
+            {product.image_url ? (
+              <img src={product.image_url} alt={product.title} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+            ) : (
+              <span>{categoryEmojis[product.category] || '📦'}</span>
+            )}
           </div>
         </div>
+        
         <div>
           <div style={{fontSize:'11px', color:'#7A7068', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'6px'}}>{product.category}</div>
           <h1 style={{fontFamily:'Georgia, serif', fontSize:'32px', fontWeight:'300', lineHeight:'1.2', marginBottom:'16px', color:'#1E1E1E'}}>{product.title}</h1>
@@ -66,15 +88,9 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
             <span style={{background:'#F5F0E8', color:'#7A7068', padding:'5px 12px', borderRadius:'2px', fontSize:'12px'}}>📍 {product.location}</span>
             <span style={{background:'#F5F0E8', color:'#7A7068', padding:'5px 12px', borderRadius:'2px', fontSize:'12px'}}>🔒 Buyer protected</span>
           </div>
-          <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'24px', paddingBottom:'24px', borderBottom:'1px solid #D9CEBC'}}>{product.desc}</p>
-          <div style={{display:'flex', alignItems:'center', gap:'12px', padding:'14px', background:'white', borderRadius:'4px', marginBottom:'24px'}}>
-            <div style={{width:'40px', height:'40px', borderRadius:'50%', background:product.sellerColor, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'16px', fontWeight:'600'}}>{product.seller[0]}</div>
-            <div>
-              <div style={{fontSize:'14px', fontWeight:'500'}}>{product.seller}</div>
-              <div style={{fontSize:'11px', color:'#7A7068'}}>Active seller · Doha, Qatar</div>
-            </div>
-            <div style={{marginLeft:'auto', fontSize:'13px', color:'#2D5A3D', fontWeight:'600'}}>⭐ 4.9</div>
-          </div>
+          {product.description && (
+            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'24px', paddingBottom:'24px', borderBottom:'1px solid #D9CEBC'}}>{product.description}</p>
+          )}
           <div style={{display:'flex', gap:'10px'}}>
             <button onClick={handleBuyNow} style={{flex:1, background:'#2D5A3D', color:'white', border:'none', padding:'16px', fontSize:'14px', fontWeight:'500', cursor:'pointer', borderRadius:'2px', letterSpacing:'0.05em', textTransform:'uppercase'}}>
               Buy Now — QAR {product.price.toLocaleString()}
