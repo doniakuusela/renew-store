@@ -63,6 +63,10 @@ export default function SignUp() {
             Log in
           </button>
         </p>
+        <div style={{background:'#EBF2EC', padding:'14px', borderRadius:'4px', marginTop:'20px', marginBottom:'4px'}}>
+          <p style={{fontSize:'12px', color:'#2D5A3D', lineHeight:'1.6', fontWeight:'500'}}>💚 Listing is free!</p>
+          <p style={{fontSize:'11px', color:'#4A4A4A', lineHeight:'1.6', marginTop:'4px'}}>A 20% service fee applies only on successful sales.</p>
+        </div>
         <p style={{textAlign:'center', marginTop:'12px', fontSize:'11px', color:'#7A7068'}}>
           By signing up you agree to our{' '}
           <a href="/terms" style={{color:'#2D5A3D'}}>Terms of Use</a>
