@@ -7,17 +7,17 @@ const ADMIN_EMAIL = 'renewstoreqa@gmail.com'
 const demoStats = {
   totalOrders: 47,
   totalRevenue: 18420,
-  service fee: 3684,
+  serviceFee: 3684,
   activeListings: 124,
   totalUsers: 312,
   disputes: 2,
 }
 
 const demoOrders = [
-  { id: '001', buyer: 'Fatima A.', seller: 'Sara M.', item: 'Zara Tote Bag', amount: 95, service fee: 19, status: 'confirmed', date: '2025-04-15' },
-  { id: '002', buyer: 'Khalid R.', seller: 'Ahmed K.', item: 'Arc Floor Lamp', amount: 350, service fee: 70, status: 'completed', date: '2025-04-14' },
-  { id: '003', buyer: 'Noura S.', seller: 'Mona R.', item: 'Stokke High Chair', amount: 480, service fee: 96, status: 'disputed', date: '2025-04-13' },
-  { id: '004', buyer: 'Omar F.', seller: 'Layla Q.', item: 'Nike Air Max', amount: 220, service fee: 44, status: 'completed', date: '2025-04-12' },
+  { id: '001', buyer: 'Fatima A.', seller: 'Sara M.', item: 'Zara Tote Bag', amount: 95, serviceFee: 19, status: 'confirmed', date: '2025-04-15' },
+  { id: '002', buyer: 'Khalid R.', seller: 'Ahmed K.', item: 'Arc Floor Lamp', amount: 350, serviceFee: 70, status: 'completed', date: '2025-04-14' },
+  { id: '003', buyer: 'Noura S.', seller: 'Mona R.', item: 'Stokke High Chair', amount: 480, serviceFee: 96, status: 'disputed', date: '2025-04-13' },
+  { id: '004', buyer: 'Omar F.', seller: 'Layla Q.', item: 'Nike Air Max', amount: 220, serviceFee: 44, status: 'completed', date: '2025-04-12' },
 ]
 
 const demoListings = [
@@ -95,7 +95,7 @@ export default function Admin() {
               {[
                 { label: 'Total Orders', value: demoStats.totalOrders, color: '#2D5A3D' },
                 { label: 'Total Revenue', value: `QAR ${demoStats.totalRevenue.toLocaleString()}`, color: '#2D5A3D' },
-                { label: 'Your service fee (20%)', value: `QAR ${demoStats.service fee.toLocaleString()}`, color: '#2D5A3D' },
+                { label: 'Your service fee (20%)', value: `QAR ${demoStats.serviceFee.toLocaleString()}`, color: '#2D5A3D' },
                 { label: 'Active Listings', value: demoStats.activeListings, color: '#2D5A3D' },
                 { label: 'Total Users', value: demoStats.totalUsers, color: '#2D5A3D' },
                 { label: 'Open Disputes', value: demoStats.disputes, color: '#DC2626' },
@@ -130,7 +130,7 @@ export default function Admin() {
                       <td style={{padding:'12px 16px', fontSize:'13px'}}>{order.seller}</td>
                       <td style={{padding:'12px 16px', fontSize:'13px'}}>{order.item}</td>
                       <td style={{padding:'12px 16px', fontSize:'13px', fontWeight:'500'}}>QAR {order.amount}</td>
-                      <td style={{padding:'12px 16px', fontSize:'13px', color:'#2D5A3D', fontWeight:'500'}}>QAR {order.service fee}</td>
+                      <td style={{padding:'12px 16px', fontSize:'13px', color:'#2D5A3D', fontWeight:'500'}}>QAR {order.serviceFee}</td>
                       <td style={{padding:'12px 16px'}}><StatusBadge status={order.status}/></td>
                       <td style={{padding:'12px 16px', fontSize:'12px', color:'#7A7068'}}>{order.date}</td>
                     </tr>
