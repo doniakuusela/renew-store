@@ -11,7 +11,7 @@ export default function Profile() {
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [payoutMethod, setPayoutMethod] = useState('Fawran')
-  const [FawranNumber, setFawranNumber] = useState('')
+  const [fawraNumber, setfawraNumber] = useState('')
   const [iban, setIban] = useState('')
   const [accountName, setAccountName] = useState('')
 
@@ -34,7 +34,7 @@ export default function Profile() {
         setFullName(data.full_name || '')
         setPhone(data.phone || '')
         setPayoutMethod(data.payout_method || 'Fawran')
-        setFawranNumber(data.Fawran_number || '')
+        setfawraNumber(data.fawra_number || '')
         setIban(data.iban || '')
         setAccountName(data.account_name || '')
       }
@@ -48,7 +48,7 @@ export default function Profile() {
       return
     }
     
-    if (payoutMethod === 'Fawran' && !FawranNumber) {
+    if (payoutMethod === 'Fawran' && !fawraNumber) {
       setMessage('Please enter your Fawran number')
       return
     }
@@ -66,7 +66,7 @@ export default function Profile() {
       full_name: fullName,
       phone: phone,
       payout_method: payoutMethod,
-      Fawran_number: payoutMethod === 'Fawran' ? FawranNumber : null,
+      fawra_number: payoutMethod === 'Fawran' ? fawraNumber : null,
       iban: payoutMethod === 'bank' ? iban : null,
       account_name: payoutMethod === 'bank' ? accountName : null,
     })
@@ -131,7 +131,7 @@ export default function Profile() {
           {payoutMethod === 'Fawran' && (
             <div>
               <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Fawran Phone Number *</label>
-              <input value={FawranNumber} onChange={e => setFawranNumber(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'11px 14px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px'}} placeholder="+974 XXXX XXXX"/>
+              <input value={fawraNumber} onChange={e => setfawraNumber(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'11px 14px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px'}} placeholder="+974 XXXX XXXX"/>
             </div>
           )}
 
