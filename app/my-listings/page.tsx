@@ -55,15 +55,27 @@ export default function MyListings() {
       title: editTitle,
       price: parseFloat(editPrice),
       description: editDescription,
-      status: 'pending' // Require re-approval after edit
+      status: 'pending'
     }).eq('id', id)
+
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: 'renewstoreqa@gmail.com',
+        subject: '📝 Listing edited — needs approval',
+        message: `A seller edited their listing "${editTitle}". Please review it in the admin panel.`,
+        type: 'order_confirmed'
+      })
+    })
     
     setEditing(null)
     await loadListings(user.id)
   }
 
   async function deleteListing(id: string) {
-    if (!confirm('Are you sure you want to delete this listing?')) return
+    const ok = window.confirm('Are you sure you want to delete this listing?')
+    if (!ok) return
     await supabase.from('listings').delete().eq('id', id)
     await loadListings(user.id)
   }
