@@ -13,7 +13,7 @@ export default function Sell() {
   const [condition, setCondition] = useState('Like new')
   const [location, setLocation] = useState('Doha')
   const [message, setMessage] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrls, setImageUrls] = useState<string[]>([])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -26,31 +26,48 @@ export default function Sell() {
   }, [])
 
   async function handleImageUpload(e: any) {
-    const file = e.target.files[0]
-    if (!file) return
-    if (file.size > 5 * 1024 * 1024) {
-      setMessage('Image too large (max 5MB)')
+    const files = Array.from(e.target.files) as any[]
+    if (files.length === 0) return
+    if (imageUrls.length + files.length > 5) {
+      setMessage('Maximum 5 images per listing')
       return
     }
+    
     setUploading(true)
     setMessage('')
     
-    const fileName = `${user.id}/${Date.now()}-${file.name}`
-    const { error } = await supabase.storage.from('listing-images').upload(fileName, file)
-    
-    if (error) {
-      setMessage('Upload error: ' + error.message)
-    } else {
-      const { data } = supabase.storage.from('listing-images').getPublicUrl(fileName)
-      setImageUrl(data.publicUrl)
-      setMessage('✅ Image uploaded!')
+    const newUrls: string[] = []
+    for (const file of files) {
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage(`${file.name} is too large (max 5MB)`)
+        continue
+      }
+      
+      const fileName = `${user.id}/${Date.now()}-${file.name}`
+      const { error } = await supabase.storage.from('listing-images').upload(fileName, file)
+      
+      if (!error) {
+        const { data } = supabase.storage.from('listing-images').getPublicUrl(fileName)
+        newUrls.push(data.publicUrl)
+      }
     }
+    
+    setImageUrls(prev => [...prev, ...newUrls])
+    setMessage(`✅ ${newUrls.length} image(s) uploaded!`)
     setUploading(false)
+  }
+
+  function removeImage(index: number) {
+    setImageUrls(prev => prev.filter((_, i) => i !== index))
   }
 
   async function handleSubmit() {
     if (!title || !price) {
       setMessage('Please fill in title and price')
+      return
+    }
+    if (imageUrls.length === 0) {
+      setMessage('Please add at least one photo')
       return
     }
     setLoading(true)
@@ -64,15 +81,28 @@ export default function Sell() {
       category: category,
       condition: condition,
       location: location,
-      image_url: imageUrl,
+      image_url: imageUrls[0],
+      image_urls: imageUrls,
       status: 'pending'
     })
 
     if (error) {
       setMessage('Error: ' + error.message)
     } else {
+      // Notify admin
+      await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: 'renewstoreqa@gmail.com',
+          subject: '🆕 New listing pending approval',
+          message: `A new listing "${title}" has been submitted by ${user.email} for QAR ${price}. Please review it in the admin panel.`,
+          type: 'order_confirmed'
+        })
+      })
+
       setMessage('✅ Listing submitted! It will be reviewed and published shortly.')
-      setTimeout(() => window.location.href = '/', 1500)
+      setTimeout(() => window.location.href = '/my-listings', 1500)
     }
     setLoading(false)
   }
@@ -93,18 +123,26 @@ export default function Sell() {
         
         {/* IMAGE UPLOAD */}
         <div style={{marginBottom:'20px'}}>
-          <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Photo *</label>
-          {imageUrl ? (
-            <div style={{position:'relative', width:'100%', aspectRatio:'1', maxWidth:'280px', background:'#EDE6D6', borderRadius:'4px', overflow:'hidden'}}>
-              <img src={imageUrl} alt="Preview" style={{width:'100%', height:'100%', objectFit:'cover'}}/>
-              <button onClick={() => setImageUrl('')} style={{position:'absolute', top:'8px', right:'8px', background:'rgba(0,0,0,0.7)', color:'white', border:'none', width:'32px', height:'32px', borderRadius:'50%', cursor:'pointer', fontSize:'16px'}}>✕</button>
+          <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Photos * (max 5)</label>
+          
+          {imageUrls.length > 0 && (
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(120px, 1fr))', gap:'10px', marginBottom:'10px'}}>
+              {imageUrls.map((url, i) => (
+                <div key={i} style={{position:'relative', aspectRatio:'1', background:'#EDE6D6', borderRadius:'4px', overflow:'hidden'}}>
+                  <img src={url} alt={`Photo ${i+1}`} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+                  <button onClick={() => removeImage(i)} style={{position:'absolute', top:'4px', right:'4px', background:'rgba(0,0,0,0.7)', color:'white', border:'none', width:'24px', height:'24px', borderRadius:'50%', cursor:'pointer', fontSize:'12px'}}>✕</button>
+                  {i === 0 && <div style={{position:'absolute', bottom:'4px', left:'4px', background:'#2D5A3D', color:'white', fontSize:'10px', padding:'2px 6px', borderRadius:'2px'}}>MAIN</div>}
+                </div>
+              ))}
             </div>
-          ) : (
-            <label style={{display:'block', border:'2px dashed #D9CEBC', padding:'32px', textAlign:'center', cursor:'pointer', borderRadius:'4px', background:'white'}}>
-              <div style={{fontSize:'40px', marginBottom:'8px'}}>📷</div>
-              <p style={{fontSize:'14px', color:'#7A7068'}}>{uploading ? 'Uploading...' : 'Click to add photo'}</p>
-              <p style={{fontSize:'11px', color:'#7A7068', marginTop:'4px'}}>JPG, PNG — max 5MB</p>
-              <input type="file" accept="image/*" onChange={handleImageUpload} style={{display:'none'}}/>
+          )}
+          
+          {imageUrls.length < 5 && (
+            <label style={{display:'block', border:'2px dashed #D9CEBC', padding:'20px', textAlign:'center', cursor:'pointer', borderRadius:'4px', background:'white'}}>
+              <div style={{fontSize:'28px', marginBottom:'6px'}}>📷</div>
+              <p style={{fontSize:'13px', color:'#7A7068'}}>{uploading ? 'Uploading...' : `Click to add photo${imageUrls.length > 0 ? 's' : ''}`}</p>
+              <p style={{fontSize:'11px', color:'#7A7068', marginTop:'4px'}}>JPG, PNG — max 5MB each · {5 - imageUrls.length} more allowed</p>
+              <input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:'none'}}/>
             </label>
           )}
         </div>
@@ -155,7 +193,7 @@ export default function Sell() {
             </select>
           </div>
         </div>
-        {message && <div style={{background: message.includes('Error') || message.includes('error') || message.includes('large') ? '#FEE2E2' : '#EBF2EC', color: message.includes('Error') || message.includes('error') || message.includes('large') ? '#DC2626' : '#2D5A3D', padding:'12px', fontSize:'13px', marginBottom:'16px', borderRadius:'4px'}}>{message}</div>}
+        {message && <div style={{background: message.includes('Error') || message.includes('error') || message.includes('large') || message.includes('Maximum') ? '#FEE2E2' : '#EBF2EC', color: message.includes('Error') || message.includes('error') || message.includes('large') || message.includes('Maximum') ? '#DC2626' : '#2D5A3D', padding:'12px', fontSize:'13px', marginBottom:'16px', borderRadius:'4px'}}>{message}</div>}
         <button onClick={handleSubmit} disabled={loading || uploading} style={{width:'100%', background:'#2D5A3D', color:'white', border:'none', padding:'15px', fontSize:'13px', fontWeight:'500', textTransform:'uppercase', cursor:'pointer', borderRadius:'2px'}}>
           {loading ? 'Publishing...' : 'Publish Listing — Free'}
         </button>
