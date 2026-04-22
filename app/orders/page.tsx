@@ -2,29 +2,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 
-const demoOrders = [
-  {
-    id: '1',
-    title: 'Zara Structured Tote Bag',
-    emoji: '👜',
-    seller: 'Layla Q.',
-    amount: 95,
-    status: 'confirmed',
-    created_at: new Date(Date.now() - 3600000).toISOString(),
-    deadline: new Date(Date.now() + 82800000).toISOString(),
-  },
-  {
-    id: '2',
-    title: 'Massimo Dutti Silk Blouse',
-    emoji: '👗',
-    seller: 'Sara A.',
-    amount: 120,
-    status: 'completed',
-    created_at: new Date(Date.now() - 172800000).toISOString(),
-    deadline: new Date(Date.now() - 86400000).toISOString(),
-  }
-]
-
 function getStatusColor(status: string) {
   switch(status) {
     case 'confirmed': return { bg: '#EBF2EC', color: '#2D5A3D', text: '✅ Payment confirmed' }
@@ -36,7 +13,6 @@ function getStatusColor(status: string) {
 
 function TimeLeft({ deadline }: { deadline: string }) {
   const [timeLeft, setTimeLeft] = useState('')
-
   useEffect(() => {
     function update() {
       const diff = new Date(deadline).getTime() - Date.now()
@@ -52,41 +28,109 @@ function TimeLeft({ deadline }: { deadline: string }) {
     const interval = setInterval(update, 60000)
     return () => clearInterval(interval)
   }, [deadline])
-
   return <span style={{fontSize:'12px', color:'#DC2626', fontWeight:'500'}}>{timeLeft}</span>
+}
+
+function ReviewForm({ order, onSubmit }: any) {
+  const [rating, setRating] = useState(5)
+  const [comment, setComment] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit() {
+    setSubmitting(true)
+    await onSubmit(order.id, rating, comment)
+    setSubmitting(false)
+  }
+
+  return (
+    <div style={{background:'#F5F0E8', padding:'16px', borderRadius:'4px', marginTop:'12px'}}>
+      <p style={{fontSize:'13px', fontWeight:'500', marginBottom:'10px'}}>Rate your experience with {order.seller_email?.split('@')[0]}:</p>
+      <div style={{display:'flex', gap:'6px', marginBottom:'12px'}}>
+        {[1,2,3,4,5].map(n => (
+          <button key={n} onClick={() => setRating(n)} style={{background:'none', border:'none', cursor:'pointer', fontSize:'26px', padding:0}}>
+            {n <= rating ? '⭐' : '☆'}
+          </button>
+        ))}
+      </div>
+      <textarea 
+        value={comment} 
+        onChange={e => setComment(e.target.value)}
+        placeholder="Optional comment about the seller or item..."
+        style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'10px', fontSize:'13px', outline:'none', boxSizing:'border-box', borderRadius:'2px', minHeight:'60px', resize:'vertical', fontFamily:'sans-serif', marginBottom:'10px'}}
+      />
+      <button onClick={handleSubmit} disabled={submitting} style={{background:'#2D5A3D', color:'white', border:'none', padding:'10px 20px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
+        {submitting ? 'Submitting...' : 'Submit Review'}
+      </button>
+    </div>
+  )
 }
 
 export default function Orders() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [orders, setOrders] = useState<any[]>([])
+  const [reviews, setReviews] = useState<any[]>([])
   const [confirming, setConfirming] = useState<string | null>(null)
-  const [orders, setOrders] = useState(demoOrders)
+  const [showReview, setShowReview] = useState<string | null>(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) {
         window.location.href = '/auth'
         return
       }
       setUser(session.user)
+      await loadOrders(session.user.id)
       setLoading(false)
-    })
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) window.location.href = '/auth'
-      else { setUser(session.user); setLoading(false) }
     })
   }, [])
 
-  function confirmReceived(orderId: string) {
-    setConfirming(orderId)
-    setTimeout(() => {
-      setOrders(prev => prev.map(o => o.id === orderId ? {...o, status: 'completed'} : o))
-      setConfirming(null)
-    }, 1500)
+  async function loadOrders(userId: string) {
+    const { data: ordersData } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('buyer_id', userId)
+      .order('created_at', { ascending: false })
+    if (ordersData) setOrders(ordersData)
+
+    const { data: reviewsData } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('buyer_id', userId)
+    if (reviewsData) setReviews(reviewsData)
   }
 
-  function openDispute(orderId: string) {
-    setOrders(prev => prev.map(o => o.id === orderId ? {...o, status: 'disputed'} : o))
+  async function confirmReceived(orderId: string) {
+    setConfirming(orderId)
+    await supabase.from('orders').update({ status: 'completed' }).eq('id', orderId)
+    await loadOrders(user.id)
+    setConfirming(null)
+    setShowReview(orderId)
+  }
+
+  async function openDispute(orderId: string) {
+    await supabase.from('orders').update({ status: 'disputed' }).eq('id', orderId)
+    await loadOrders(user.id)
+  }
+
+  async function submitReview(orderId: string, rating: number, comment: string) {
+    const order = orders.find(o => o.id === orderId)
+    if (!order) return
+
+    await supabase.from('reviews').insert({
+      order_id: orderId,
+      buyer_id: user.id,
+      seller_email: order.seller_email,
+      rating: rating,
+      comment: comment
+    })
+
+    await loadOrders(user.id)
+    setShowReview(null)
+  }
+
+  function hasReviewed(orderId: string) {
+    return reviews.some(r => r.order_id === orderId)
   }
 
   if (loading) return <div style={{display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', fontFamily:'sans-serif'}}>Loading...</div>
@@ -102,72 +146,91 @@ export default function Orders() {
         <h1 style={{fontFamily:'Georgia, serif', fontSize:'36px', fontWeight:'300', marginBottom:'8px'}}>My Orders</h1>
         <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'32px'}}>Confirm receipt within 24h to release payment to seller</p>
 
-        {orders.map(order => {
-          const statusStyle = getStatusColor(order.status)
-          return (
-            <div key={order.id} style={{background:'white', borderRadius:'4px', padding:'24px', marginBottom:'16px', boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'16px', marginBottom:'16px'}}>
-                <div style={{width:'56px', height:'56px', background:'#EDE6D6', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'28px', flexShrink:0}}>
-                  {order.emoji}
-                </div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:'16px', fontWeight:'500', marginBottom:'3px'}}>{order.title}</div>
-                  <div style={{fontSize:'12px', color:'#7A7068'}}>Seller: {order.seller}</div>
-                </div>
-                <div style={{textAlign:'right'}}>
-                  <div style={{fontSize:'20px', fontWeight:'600', color:'#2D5A3D'}}>QAR {order.amount}</div>
-                  <div style={{fontSize:'11px', color:'#7A7068', marginTop:'2px'}}>{new Date(order.created_at).toLocaleDateString()}</div>
-                </div>
-              </div>
-
-              <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 14px', background:statusStyle.bg, borderRadius:'4px', marginBottom:'16px'}}>
-                <span style={{fontSize:'13px', fontWeight:'500', color:statusStyle.color}}>{statusStyle.text}</span>
-                {order.status === 'confirmed' && <TimeLeft deadline={order.deadline}/>}
-              </div>
-
-              {order.status === 'confirmed' && (
-                <div>
-                  <p style={{fontSize:'12px', color:'#7A7068', marginBottom:'12px', lineHeight:'1.6'}}>
-                    Once you receive the item, confirm below. If there is an issue, open a dispute within 24h. After 24h, payment is automatically released to the seller.
-                  </p>
-                  <div style={{display:'flex', gap:'10px'}}>
-                    <button
-                      onClick={() => confirmReceived(order.id)}
-                      disabled={confirming === order.id}
-                      style={{flex:1, background:'#2D5A3D', color:'white', border:'none', padding:'12px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
-                      {confirming === order.id ? 'Confirming...' : '✅ I received the item'}
-                    </button>
-                    <button
-                      onClick={() => openDispute(order.id)}
-                      style={{padding:'12px 16px', border:'1.5px solid #DC2626', background:'white', color:'#DC2626', borderRadius:'2px', cursor:'pointer', fontSize:'13px', fontWeight:'500'}}>
-                      ⚠️ Open dispute
-                    </button>
-                    <button
-                      onClick={() => window.location.href='/chat'}
-                      style={{padding:'12px 16px', border:'1.5px solid #D9CEBC', background:'white', color:'#7A7068', borderRadius:'2px', cursor:'pointer', fontSize:'13px'}}>
-                      💬 Chat
-                    </button>
+        {orders.length === 0 ? (
+          <div style={{background:'white', padding:'60px 20px', borderRadius:'4px', textAlign:'center'}}>
+            <div style={{fontSize:'48px', marginBottom:'12px'}}>📦</div>
+            <h3 style={{fontFamily:'Georgia, serif', fontSize:'22px', fontWeight:'300', marginBottom:'8px'}}>No orders yet</h3>
+            <p style={{fontSize:'14px', color:'#7A7068', marginBottom:'20px'}}>Start browsing to find your first item</p>
+            <button onClick={() => window.location.href='/'} style={{background:'#2D5A3D', color:'white', border:'none', padding:'12px 24px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>Browse items</button>
+          </div>
+        ) : (
+          orders.map(order => {
+            const statusStyle = getStatusColor(order.status)
+            const deadline = new Date(new Date(order.created_at).getTime() + 86400000).toISOString()
+            const reviewed = hasReviewed(order.id)
+            return (
+              <div key={order.id} style={{background:'white', borderRadius:'4px', padding:'24px', marginBottom:'16px', boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
+                <div style={{display:'flex', alignItems:'center', gap:'16px', marginBottom:'16px', flexWrap:'wrap'}}>
+                  <div style={{width:'56px', height:'56px', background:'#EDE6D6', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'28px', flexShrink:0}}>
+                    {order.product_emoji || '📦'}
+                  </div>
+                  <div style={{flex:1, minWidth:'160px'}}>
+                    <div style={{fontSize:'16px', fontWeight:'500', marginBottom:'3px'}}>{order.product_title}</div>
+                    <div style={{fontSize:'12px', color:'#7A7068'}}>Seller: {order.seller_email?.split('@')[0]}</div>
+                  </div>
+                  <div style={{textAlign:'right'}}>
+                    <div style={{fontSize:'20px', fontWeight:'600', color:'#2D5A3D'}}>QAR {order.amount}</div>
+                    <div style={{fontSize:'11px', color:'#7A7068', marginTop:'2px'}}>{new Date(order.created_at).toLocaleDateString()}</div>
                   </div>
                 </div>
-              )}
 
-              {order.status === 'completed' && (
-                <div style={{display:'flex', gap:'10px'}}>
-                  <button onClick={() => window.location.href='/chat'} style={{padding:'10px 16px', border:'1.5px solid #D9CEBC', background:'white', color:'#7A7068', borderRadius:'2px', cursor:'pointer', fontSize:'13px'}}>
-                    💬 View chat
-                  </button>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 14px', background:statusStyle.bg, borderRadius:'4px', marginBottom:'16px', flexWrap:'wrap', gap:'8px'}}>
+                  <span style={{fontSize:'13px', fontWeight:'500', color:statusStyle.color}}>{statusStyle.text}</span>
+                  {order.status === 'confirmed' && <TimeLeft deadline={deadline}/>}
                 </div>
-              )}
 
-              {order.status === 'disputed' && (
-                <div style={{background:'#FEE2E2', padding:'12px', borderRadius:'4px'}}>
-                  <p style={{fontSize:'13px', color:'#DC2626', fontWeight:'500', marginBottom:'4px'}}>⚠️ Dispute opened</p>
-                  <p style={{fontSize:'12px', color:'#7A7068'}}>Our team will review your case and contact you within 24 hours. Please email us at <a href="mailto:renewstoreqa@gmail.com" style={{color:'#DC2626'}}>renewstoreqa@gmail.com</a></p>
-                </div>
-              )}
-            </div>
-          )
-        })}
+                {order.status === 'confirmed' && (
+                  <div>
+                    <p style={{fontSize:'12px', color:'#7A7068', marginBottom:'12px', lineHeight:'1.6'}}>
+                      Once you receive the item, confirm below. If there is an issue, open a dispute within 24h.
+                    </p>
+                    <div style={{display:'flex', gap:'10px', flexWrap:'wrap'}}>
+                      <button
+                        onClick={() => confirmReceived(order.id)}
+                        disabled={confirming === order.id}
+                        style={{flex:1, minWidth:'160px', background:'#2D5A3D', color:'white', border:'none', padding:'12px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
+                        {confirming === order.id ? 'Confirming...' : '✅ I received the item'}
+                      </button>
+                      <button
+                        onClick={() => openDispute(order.id)}
+                        style={{padding:'12px 16px', border:'1.5px solid #DC2626', background:'white', color:'#DC2626', borderRadius:'2px', cursor:'pointer', fontSize:'13px', fontWeight:'500'}}>
+                        ⚠️ Open dispute
+                      </button>
+                      <button
+                        onClick={() => window.location.href='/chat'}
+                        style={{padding:'12px 16px', border:'1.5px solid #D9CEBC', background:'white', color:'#7A7068', borderRadius:'2px', cursor:'pointer', fontSize:'13px'}}>
+                        💬 Chat
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {order.status === 'completed' && (
+                  <div>
+                    {!reviewed && showReview !== order.id && (
+                      <button onClick={() => setShowReview(order.id)} style={{background:'#2D5A3D', color:'white', border:'none', padding:'10px 18px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
+                        ⭐ Leave a review
+                      </button>
+                    )}
+                    {showReview === order.id && (
+                      <ReviewForm order={order} onSubmit={submitReview}/>
+                    )}
+                    {reviewed && (
+                      <p style={{fontSize:'12px', color:'#2D5A3D', fontWeight:'500'}}>✅ You reviewed this seller</p>
+                    )}
+                  </div>
+                )}
+
+                {order.status === 'disputed' && (
+                  <div style={{background:'#FEE2E2', padding:'12px', borderRadius:'4px'}}>
+                    <p style={{fontSize:'13px', color:'#DC2626', fontWeight:'500', marginBottom:'4px'}}>⚠️ Dispute opened</p>
+                    <p style={{fontSize:'12px', color:'#7A7068'}}>Our team will review your case and contact you within 24 hours. Please email us at <a href="mailto:renewstoreqa@gmail.com" style={{color:'#DC2626'}}>renewstoreqa@gmail.com</a></p>
+                  </div>
+                )}
+              </div>
+            )
+          })
+        )}
       </div>
     </main>
   )
