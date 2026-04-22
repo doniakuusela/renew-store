@@ -150,7 +150,7 @@ export default function Profile() {
         </div>
 
         <div style={{background:'#EBF2EC', padding:'16px', borderRadius:'4px', marginBottom:'20px'}}>
-          <p style={{fontSize:'12px', color:'#2D5A3D', lineHeight:'1.7'}}>🔒 Your payment information is stored securely and only used to transfer earnings from your sales. Commission of 20% applies to each successful sale.</p>
+          <p style={{fontSize:'12px', color:'#2D5A3D', lineHeight:'1.7'}}>🔒 Your payment information is stored securely and only used to transfer earnings from your sales. service fee of 20% applies to each successful sale.</p>
         </div>
 
         {message && <div style={{background: message.includes('Error') ? '#FEE2E2' : '#EBF2EC', color: message.includes('Error') ? '#DC2626' : '#2D5A3D', padding:'12px', fontSize:'13px', marginBottom:'16px', borderRadius:'4px'}}>{message}</div>}

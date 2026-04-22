@@ -18,8 +18,8 @@ export default function Terms() {
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>3. Buying and Selling</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store is a platform that connects buyers and sellers. Sellers are responsible for accurately describing their items. Buyers are responsible for reviewing listings carefully before purchasing.</p>
 
-        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>4. Commission</h2>
-        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store charges a 20% commission on each successful sale. This commission is automatically deducted from the seller's payout. Listing items is always free.</p>
+        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>4. service fee</h2>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store charges a 20% service fee on each successful sale. This service fee is automatically deducted from the seller's payout. Listing items is always free.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>5. Prohibited Items</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>The following items are strictly prohibited: weapons, counterfeit goods, alcohol, items prohibited under Qatar law, stolen goods, and items that violate intellectual property rights. Violations will result in immediate account suspension.</p>
@@ -41,7 +41,7 @@ export default function Terms() {
           <li style={{marginBottom:'6px'}}>Wrong item delivered</li>
         </ul>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}><strong>Not accepted:</strong> buyer changed their mind, item doesn't fit, or buyer doesn't like the item.</p>
-        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>In case of an approved return, the buyer and seller arrange the physical return between themselves. Renew Store does not collect commission on approved returns.</p>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>In case of an approved return, the buyer and seller arrange the physical return between themselves. Renew Store does not collect service fee on approved returns.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>8. Communication</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>All communication between buyers and sellers must take place within the Renew Store chat. Sharing personal contact details or arranging transactions outside the platform is prohibited and may result in account suspension.</p>
