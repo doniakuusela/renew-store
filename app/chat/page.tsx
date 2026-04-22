@@ -18,7 +18,7 @@ export default function Chat() {
         return
       }
       setUser(session.user)
-      loadOrders(session.user.id, session.user.email)
+      loadOrders(session.user.id, session.user.email || '')
     })
   }, [])
 
