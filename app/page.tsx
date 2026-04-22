@@ -13,13 +13,21 @@ const categoryEmojis: any = {
 
 export default function Home() {
   const [category, setCategory] = useState('All')
+  const [searchQuery, setSearchQuery] = useState('')
   const [user, setUser] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const categories = ['All', 'Fashion', 'Furniture', 'Kids', 'Sports']
-  const filtered = category === 'All' ? products : products.filter(p => p.category === category)
+  const filtered = products.filter(p => {
+    const matchesCategory = category === 'All' || p.category === category
+    const matchesSearch = !searchQuery || 
+      p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category?.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -122,6 +130,14 @@ export default function Home() {
       <section id="listings" style={{padding: isMobile ? '40px 5%' : '60px 8%', background:'white'}}>
         <p style={{fontSize:'11px', color:'#3D7A54', letterSpacing:'0.14em', textTransform:'uppercase', marginBottom:'8px'}}>Browse items</p>
         <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'24px', flexWrap:'wrap', gap:'12px'}}>
+          <div style={{marginBottom:'24px'}}>
+          <input
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="🔍 Search for items..."
+            style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'14px 18px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'4px', fontFamily:'sans-serif', background:'white'}}
+          />
+        </div>
           <h2 style={{fontSize: isMobile ? '28px' : '44px', fontWeight:'300', lineHeight:'1.15'}}>Fresh <em style={{color:'#2D5A3D'}}>finds</em></h2>
           <div style={{display:'flex', gap:'8px', flexWrap:'wrap'}}>
             {categories.map(cat => (
