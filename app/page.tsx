@@ -185,6 +185,35 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* FOOTER */}
+      <footer style={{background:'#2D5A3D', padding:'40px 5%', color:'white'}}>
+        <div style={{maxWidth:'1000px', margin:'0 auto'}}>
+          <div style={{display:'flex', gap:'32px', flexWrap:'wrap', marginBottom:'24px'}}>
+            <div style={{flex:1, minWidth:'200px'}}>
+              <div style={{fontSize:'20px', fontWeight:'600', marginBottom:'8px'}}>🌿 Renew Store</div>
+              <p style={{fontSize:'12px', color:'rgba(255,255,255,0.7)', lineHeight:'1.7'}}>Qatar's marketplace for pre-loved items.</p>
+            </div>
+            <div style={{minWidth:'140px'}}>
+              <div style={{fontSize:'11px', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'12px', color:'rgba(255,255,255,0.6)'}}>Learn more</div>
+              <a href="/how-it-works" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>How it works</a>
+              <a href="/faq" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>FAQ</a>
+            </div>
+            <div style={{minWidth:'140px'}}>
+              <div style={{fontSize:'11px', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'12px', color:'rgba(255,255,255,0.6)'}}>Legal</div>
+              <a href="/terms" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>Terms of Use</a>
+              <a href="/privacy" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>Privacy Policy</a>
+            </div>
+            <div style={{minWidth:'140px'}}>
+              <div style={{fontSize:'11px', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'12px', color:'rgba(255,255,255,0.6)'}}>Contact</div>
+              <a href="mailto:renewstoreqa@gmail.com" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px'}}>renewstoreqa@gmail.com</a>
+            </div>
+          </div>
+          <div style={{borderTop:'1px solid rgba(255,255,255,0.2)', paddingTop:'20px', fontSize:'11px', color:'rgba(255,255,255,0.6)', textAlign:'center'}}>
+            © 2026 Renew Store · Based in Doha, Qatar
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }
