@@ -55,9 +55,7 @@ export default function Terms() {
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>11. Contact</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any questions about these terms, contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
-        <div style={{background:'#EBF2EC', padding:'20px', borderRadius:'4px', marginTop:'40px'}}>
-          <p style={{fontSize:'13px', color:'#2D5A3D', lineHeight:'1.7'}}>⚠️ These terms have been prepared as a general framework. We recommend having them reviewed by a qualified legal professional in Qatar before full public launch.</p>
-        </div>
+        
       </div>
     </main>
   )
