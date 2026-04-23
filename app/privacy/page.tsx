@@ -19,7 +19,7 @@ export default function Privacy() {
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Your data is used solely to operate the Renew Store marketplace — to enable buying, selling, and communication between users. We do not sell, rent, or share your personal data with third parties for marketing purposes.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>4. Data storage & security</h2>
-        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Your data is stored securely using Supabase, which employs 256-bit SSL encryption. We implement row-level security to ensure that users can only access their own data. We retain your data for as long as your account is active.</p>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Your data is stored securely with 256-bit SSL encryption by our trusted infrastructure provider. We implement strict access controls to ensure that users can only access their own data. We retain your data for as long as your account is active.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>5. Your rights under Qatar PDPL</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Under Qatar's Personal Data Protection Law, you have the right to access your personal data, request correction of inaccurate data, request deletion of your data, and withdraw consent at any time. To exercise these rights, contact us at renewstoreqa@gmail.com</p>
