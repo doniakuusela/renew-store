@@ -59,7 +59,31 @@ export default function Admin() {
   }
 
   async function approveListing(id: string) {
+    const listing = listings.find(l => l.id === id)
     await supabase.from('listings').update({ status: 'active' }).eq('id', id)
+    
+    // Find seller profile
+    if (listing) {
+      const { data: sellerProfile } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('id', listing.user_id)
+        .single()
+      
+      if (sellerProfile?.email) {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: sellerProfile.email,
+            subject: '🎉 Your listing is live — Renew Store',
+            message: `Great news! Your listing "${listing.title}" has been approved and is now live on Renew Store. Buyers can now see and purchase it!`,
+            type: 'order_confirmed'
+          })
+        })
+      }
+    }
+    
     loadData()
   }
 
