@@ -142,7 +142,7 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
           {/* SELLER INFO */}
           {seller && (
             <div style={{background:'white', padding:'16px', borderRadius:'4px', marginBottom:'20px'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'10px'}}>
+              <div onClick={() => window.location.href=`/seller/${seller.id}`} style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'10px', cursor:'pointer'}}>
                 <div style={{width:'44px', height:'44px', borderRadius:'50%', background:'#2D5A3D', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'18px', fontWeight:'600'}}>
                   {seller.full_name?.[0]?.toUpperCase() || seller.email?.[0]?.toUpperCase() || '?'}
                 </div>
