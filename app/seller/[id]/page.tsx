@@ -82,7 +82,7 @@ export default function SellerProfile({ params }: { params: Promise<{ id: string
           </div>
           <div style={{flex:1}}>
             <h1 style={{fontFamily:'Georgia, serif', fontSize:'28px', fontWeight:'300', marginBottom:'4px'}}>{seller.full_name || seller.email?.split('@')[0]}</h1>
-            <div style={{fontSize:'13px', color:'#7A7068'}}>📍 Qatar</div>
+            <div style={{fontSize:'13px', color:'#7A7068'}}>📍 {listings[0]?.location || 'Qatar'}</div>
             <div style={{display:'flex', gap:'24px', marginTop:'10px', flexWrap:'wrap'}}>
               {avgRating && (
                 <div>
