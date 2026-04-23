@@ -1,3 +1,4 @@
+'use client'
 export default function HowItWorks() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
