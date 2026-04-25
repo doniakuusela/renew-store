@@ -1,4 +1,4 @@
-export default function Privacy() {
+export default function Privacy() { 
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
       <nav style={{background:'rgba(245,240,232,0.95)', borderBottom:'1px solid #D9CEBC', padding:'0 5%', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between', position:'fixed', top:0, left:0, right:0, zIndex:100}}>
@@ -10,7 +10,7 @@ export default function Privacy() {
         <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'40px'}}>Last updated: January 2025 · Governed by Qatar PDPL Law No. 13 of 2016</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>1. Who we are</h2>
-        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store is a marketplace platform operated in Qatar. We connect buyers and sellers of pre-loved goods. Our platform is governed by the laws of the State of Qatar, including the Personal Data Protection Law (PDPL) No. 13 of 2016.</p>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store (CR No: 227458) is a marketplace platform operated in Qatar. We connect buyers and sellers of pre-loved goods. Our platform is governed by the laws of the State of Qatar, including the Personal Data Protection Law (PDPL) No. 13 of 2016.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>2. Data we collect</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>We collect the following personal data when you use Renew Store: full name, email address, phone number, location within Qatar, and listing information including photos and descriptions. Payment data is processed securely by MyFatoorah and is never stored on our servers.</p>
