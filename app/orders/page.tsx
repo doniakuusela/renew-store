@@ -100,9 +100,12 @@ export default function Orders() {
     if (reviewsData) setReviews(reviewsData)
   }
 
-  async function confirmReceived(orderId: string) {
+   async function confirmReceived(orderId: string) {
     setConfirming(orderId)
-    await supabase.from('orders').update({ status: 'completed' }).eq('id', orderId)
+    await supabase.from('orders').update({ 
+      status: 'completed',
+      received_at: new Date().toISOString()
+    }).eq('id', orderId)
     await loadOrders(user.id)
     setConfirming(null)
     setShowReview(orderId)

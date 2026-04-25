@@ -92,10 +92,13 @@ export default function Admin() {
     loadData()
   }
 
-  function getTimeStatus(createdAt: string) {
-    const orderTime = new Date(createdAt).getTime()
+  function getTimeStatus(order: any) {
+    if (!order.received_at) {
+      return { ready: false, text: '⏳ Waiting for buyer to confirm receipt', color: '#7A7068' }
+    }
+    const receivedTime = new Date(order.received_at).getTime()
     const now = Date.now()
-    const diff = now - orderTime
+    const diff = now - receivedTime
     const hours24 = 24 * 60 * 60 * 1000
     
     if (diff >= hours24) {
@@ -258,8 +261,8 @@ export default function Admin() {
                         <div style={{textAlign:'right'}}>
                           <div style={{fontSize:'11px', color:'#7A7068'}}>Pay to seller:</div>
                           <div style={{fontSize:'24px', fontWeight:'700', color:'#D97706'}}>QAR {payout.toFixed(0)}</div>
-<div style={{marginTop:'6px', fontSize:'12px', fontWeight:'500', color: getTimeStatus(order.created_at).color}}>
-  {getTimeStatus(order.created_at).text}
+<div style={{marginTop:'6px', fontSize:'12px', fontWeight:'500', color: getTimeStatus(order).color}}>
+  {getTimeStatus(order).text}
 </div>
                           <div style={{fontSize:'24px', fontWeight:'700', color:'#D97706'}}>QAR {payout.toFixed(0)}</div>
                         </div>
