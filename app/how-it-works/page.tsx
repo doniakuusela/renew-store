@@ -24,38 +24,38 @@ export default function HowItWorks() {
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>1</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Browse & find what you love</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Browse & find what you love</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Explore pre-loved items from sellers across Qatar. Use search and filters to find exactly what you're looking for.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Explore pre-loved items from sellers across Qatar. Use search and filters to find exactly what you're looking for.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>2</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Buy securely with MyFatoorah</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Buy securely with MyFatoorah</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Pay safely through MyFatoorah. Your payment is held securely until you confirm you received the item.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Pay safely through MyFatoorah. Your payment is held securely until you confirm you received the item.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>3</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Chat & arrange pickup</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Chat & arrange pickup</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>After payment, chat opens automatically with the seller. Agree on a time and place to meet.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>After payment, chat opens automatically with the seller. Agree on a time and place to meet.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>4</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Confirm & leave a review</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Confirm & leave a review</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Once you receive the item, confirm it in "My Orders". You have 24 hours to report any issues. Then leave a review for the seller!</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Once you receive the item, confirm it in "My Orders". You have 24 hours to report any issues. Then leave a review for the seller!</p>
           </div>
 
           <div style={{background:'#EBF2EC', padding:'16px', borderRadius:'4px', marginTop:'28px'}}>
             <p style={{fontSize:'13px', color:'#2D5A3D', fontWeight:'500', marginBottom:'4px'}}>🔒 Buyer Protection</p>
-            <p style={{fontSize:'12px', color:'#4A4A4A', lineHeight:'1.7'}}>Your money is held safely until you confirm receipt. If anything is wrong, open a dispute within 24 hours and we'll help.</p>
+            <p style={{fontSize:'12px', color:'#1E1E1E', lineHeight:'1.7'}}>Your money is held safely until you confirm receipt. If anything is wrong, open a dispute within 24 hours and we'll help.</p>
           </div>
         </div>
 
@@ -67,38 +67,38 @@ export default function HowItWorks() {
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>1</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>List your item — free</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>List your item — free</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Add photos, description, and price. Listings are free and go live after a quick review within 24 hours.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Add photos, description, and price. Listings are free and go live after a quick review within 24 hours.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>2</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Add your payout details</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Add your payout details</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Go to Profile and add your Fawran number or bank IBAN. This is where we'll send your earnings.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Go to Profile and add your Fawran number or bank IBAN. This is where we'll send your earnings.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>3</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Get paid when it sells</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Get paid when it sells</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>When someone buys your item, we'll notify you. Chat with the buyer, arrange pickup, and hand over the item.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>When someone buys your item, we'll notify you. Chat with the buyer, arrange pickup, and hand over the item.</p>
           </div>
 
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>4</div>
-              <h3 style={{fontSize:'17px', fontWeight:'500'}}>Receive your earnings</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600'}}>Receive your earnings</h3>
             </div>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8', marginLeft:'40px'}}>Once the buyer confirms receipt (within 24h), you receive 80% of the sale price. We keep 20% as a service fee.</p>
+            <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Once the buyer confirms receipt (within 24h), you receive 80% of the sale price. We keep 20% as a service fee.</p>
           </div>
 
           <div style={{background:'#EBF2EC', padding:'16px', borderRadius:'4px', marginTop:'28px'}}>
             <p style={{fontSize:'13px', color:'#2D5A3D', fontWeight:'500', marginBottom:'4px'}}>💚 Example calculation</p>
-            <p style={{fontSize:'12px', color:'#4A4A4A', lineHeight:'1.7'}}>If you sell an item for QAR 100, you receive QAR 80. The QAR 20 service fee covers platform, payment processing, and buyer protection.</p>
+            <p style={{fontSize:'12px', color:'#1E1E1E', lineHeight:'1.7'}}>If you sell an item for QAR 100, you receive QAR 80. The QAR 20 service fee covers platform, payment processing, and buyer protection.</p>
           </div>
         </div>
 
