@@ -92,8 +92,19 @@ export default function Admin() {
     loadData()
   }
 
-  function getProfile(email: string) {
-    return profiles.find(p => p.email === email)
+  function getTimeStatus(createdAt: string) {
+    const orderTime = new Date(createdAt).getTime()
+    const now = Date.now()
+    const diff = now - orderTime
+    const hours24 = 24 * 60 * 60 * 1000
+    
+    if (diff >= hours24) {
+      return { ready: true, text: '✅ 24h passed — ready to release', color: '#2D5A3D' }
+    } else {
+      const hoursLeft = Math.floor((hours24 - diff) / 3600000)
+      const minsLeft = Math.floor(((hours24 - diff) % 3600000) / 60000)
+      return { ready: false, text: `⏱️ ${hoursLeft}h ${minsLeft}m remaining`, color: '#D97706' }
+    }
   }
 
   // Calculate stats
@@ -246,6 +257,10 @@ export default function Admin() {
                         </div>
                         <div style={{textAlign:'right'}}>
                           <div style={{fontSize:'11px', color:'#7A7068'}}>Pay to seller:</div>
+                          <div style={{fontSize:'24px', fontWeight:'700', color:'#D97706'}}>QAR {payout.toFixed(0)}</div>
+<div style={{marginTop:'6px', fontSize:'12px', fontWeight:'500', color: getTimeStatus(order.created_at).color}}>
+  {getTimeStatus(order.created_at).text}
+</div>
                           <div style={{fontSize:'24px', fontWeight:'700', color:'#D97706'}}>QAR {payout.toFixed(0)}</div>
                         </div>
                       </div>
