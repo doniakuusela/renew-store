@@ -102,10 +102,25 @@ export default function Orders() {
 
    async function confirmReceived(orderId: string) {
     setConfirming(orderId)
+    const order = orders.find(o => o.id === orderId)
+    
     await supabase.from('orders').update({ 
       status: 'completed',
       received_at: new Date().toISOString()
     }).eq('id', orderId)
+
+    // Notify admin
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: 'renewstoreqa@gmail.com',
+        subject: '📦 Buyer confirmed receipt — Renew Store',
+        message: `The buyer has confirmed receipt of "${order?.product_title}". The 24-hour protection window has started. Check the admin panel to track when you can release payment to the seller.`,
+        type: 'order_confirmed'
+      })
+    })
+
     await loadOrders(user.id)
     setConfirming(null)
     setShowReview(orderId)

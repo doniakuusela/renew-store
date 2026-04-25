@@ -267,6 +267,23 @@ export default function Admin() {
                           <div style={{fontSize:'24px', fontWeight:'700', color:'#D97706'}}>QAR {payout.toFixed(0)}</div>
                         </div>
                       </div>
+                      <div style={{display:'flex', gap:'10px', marginBottom:'14px'}}>
+  <button onClick={async () => {
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: order.buyer_email,
+        subject: '📦 Don\'t forget to confirm receipt — Renew Store',
+        message: `Hi! Just a reminder to confirm you received "${order.product_title}". Please go to My Orders and click "I received the item". If you have any issues with the item, you can open a dispute there too.`,
+        type: 'new_message'
+      })
+    })
+    alert('Reminder sent to buyer!')
+  }} style={{background:'#2D5A3D', color:'white', border:'none', padding:'8px 16px', borderRadius:'2px', cursor:'pointer', fontSize:'12px', fontWeight:'500'}}>
+    📧 Send reminder to buyer
+  </button>
+</div>
                       {profile && (profile.fawra_number || profile.iban) ? (
                         <div style={{background:'#EBF2EC', padding:'14px', borderRadius:'4px'}}>
                           <div style={{fontSize:'11px', fontWeight:'600', color:'#2D5A3D', marginBottom:'4px', textTransform:'uppercase'}}>Payout details</div>
