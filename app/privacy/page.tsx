@@ -1,8 +1,9 @@
-export default function Privacy() { 
+'use client'
+export default function Privacy() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
       <nav style={{background:'rgba(245,240,232,0.95)', borderBottom:'1px solid #D9CEBC', padding:'0 5%', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between', position:'fixed', top:0, left:0, right:0, zIndex:100}}>
-        <div style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600'}}>🌿 Renew Store</div>
+        <div onClick={() => window.location.href='/'} style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600', cursor:'pointer'}}>🌿 Renew Store</div>
         <a href="/" style={{fontSize:'13px', color:'#7A7068', textDecoration:'none'}}>← Back</a>
       </nav>
       <div style={{maxWidth:'760px', margin:'0 auto', padding:'60px 8%'}}>
@@ -30,7 +31,7 @@ export default function Privacy() {
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>7. Contact</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any privacy-related questions, please contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
-        </div>
+      </div>
     </main>
   )
 }
