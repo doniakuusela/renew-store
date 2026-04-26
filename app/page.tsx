@@ -19,7 +19,7 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false)
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const categories = ['All', 'Fashion', 'Furniture', 'Kids', 'Sports']
+  const categories = ['All', "Women's Fashion", "Men's Fashion", 'Furniture', 'Kids', 'Sports']
   const filtered = products.filter(p => {
     const matchesCategory = category === 'All' || p.category === category
     const matchesSearch = !searchQuery || 
