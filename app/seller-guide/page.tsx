@@ -73,12 +73,12 @@ export default function SellerGuide() {
 
           <div style={{marginBottom:'20px', paddingBottom:'20px', borderBottom:'1px solid #F5F0E8'}}>
             <h3 style={{fontSize:'16px', fontWeight:'600', color:'#1E1E1E', marginBottom:'8px'}}>Arrange pickup</h3>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>All communication must happen through the Renew Store chat. Agree on a time and public meeting place in Qatar. Never share your personal phone number or WhatsApp.</p>
+            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>Use the Renew Store chat to agree on a time and public meeting place in Qatar. We recommend keeping communication on the platform so there is a record in case of any dispute.</p>
           </div>
 
           <div style={{marginBottom:'20px', paddingBottom:'20px', borderBottom:'1px solid #F5F0E8'}}>
             <h3 style={{fontSize:'16px', fontWeight:'600', color:'#1E1E1E', marginBottom:'8px'}}>Hand over the item</h3>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>Meet the buyer in a safe public location. Hand over the item and make sure the buyer is happy. The buyer will confirm receipt in the app.</p>
+            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>Meet the buyer in a safe public location. Hand over the item and allow the buyer to inspect it before confirming receipt. The buyer will confirm receipt in the app.</p>
           </div>
 
           <div style={{marginBottom:'0'}}>
