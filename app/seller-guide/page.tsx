@@ -128,7 +128,7 @@ export default function SellerGuide() {
           
           <div style={{marginBottom:'16px'}}>
             <h3 style={{fontSize:'15px', fontWeight:'600', color:'#2D5A3D', marginBottom:'8px'}}>✅ You can sell:</h3>
-            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>Fashion, accessories, furniture, home decor, kids items, toys, sports equipment, electronics, and other pre-loved goods in good condition.</p>
+            <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.8'}}>Fashion, accessories, furniture, home decor, kids items, toys, sports equipment, and other pre-loved goods in good condition.</p>
           </div>
 
           <div style={{marginBottom:'16px'}}>
