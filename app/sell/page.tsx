@@ -167,7 +167,6 @@ export default function Sell() {
               <option>Furniture</option>
               <option>Kids</option>
               <option>Sports</option>
-              <option>Electronics</option>
               <option>Other</option>
             </select>
           </div>
