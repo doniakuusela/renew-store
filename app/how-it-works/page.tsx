@@ -24,7 +24,7 @@ export default function HowItWorks() {
           <div style={{marginBottom:'28px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px'}}>
               <div style={{width:'28px', height:'28px', borderRadius:'50%', background:'#2D5A3D', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'600'}}>1</div>
-              <h3 style={{fontSize:'17px', fontWeight:'600', color:'#1E1E1E', color:'#1E1E1E'}}>Browse & find what you love</h3>
+              <h3 style={{fontSize:'17px', fontWeight:'600', color:'#1E1E1E'}}>Browse & find what you love</h3>
             </div>
             <p style={{fontSize:'14px', color:'#1E1E1E', lineHeight:'1.8', marginLeft:'40px'}}>Explore pre-loved items from sellers across Qatar. Use search and filters to find exactly what you're looking for.</p>
           </div>
