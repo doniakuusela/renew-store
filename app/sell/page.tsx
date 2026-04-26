@@ -162,8 +162,9 @@ export default function Sell() {
           </div>
           <div>
             <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Category</label>
-            <select value={category} onChange={e => setCategory(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'11px 14px', fontSize:'14px', outline:'none', boxSizing:'border-box', background:'white', borderRadius:'2px'}}>
-              <option>Fashion</option>
+            <select value={category} onChange={e => setCategory(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'11px 14px', fontSize:'14px', outline:'none', boxSizing:'border-box', background:'white', borderRadius:'2px', color:'#1E1E1E'}}>
+              <option>Women's Fashion</option>
+              <option>Men's Fashion</option>
               <option>Furniture</option>
               <option>Kids</option>
               <option>Sports</option>
