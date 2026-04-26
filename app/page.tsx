@@ -197,6 +197,7 @@ export default function Home() {
             <div style={{minWidth:'140px'}}>
               <div style={{fontSize:'11px', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'12px', color:'rgba(255,255,255,0.6)'}}>Learn more</div>
               <a href="/how-it-works" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>How it works</a>
+              <a href="/seller-guide" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>Seller guide</a>
               <a href="/faq" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px', marginBottom:'8px'}}>FAQ</a>
             </div>
             <div style={{minWidth:'140px'}}>
