@@ -97,7 +97,7 @@ export default function Sell() {
           to: 'renewstoreqa@gmail.com',
           subject: '🆕 New listing pending approval',
           message: `A new listing "${title}" has been submitted by ${user.email} for QAR ${price}. Please review it in the admin panel.`,
-          type: 'order_confirmed'
+          type: 'new_message'
         })
       })
 

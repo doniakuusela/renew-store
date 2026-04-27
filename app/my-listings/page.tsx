@@ -65,7 +65,7 @@ export default function MyListings() {
         to: 'renewstoreqa@gmail.com',
         subject: '📝 Listing edited — needs approval',
         message: `A seller edited their listing "${editTitle}". Please review it in the admin panel.`,
-        type: 'order_confirmed'
+        type: 'new_message'
       })
     })
     
