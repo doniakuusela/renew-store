@@ -23,12 +23,15 @@ export default function Privacy() {
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Your data is stored securely with 256-bit SSL encryption by our trusted infrastructure provider. We implement strict access controls to ensure that users can only access their own data. We retain your data for as long as your account is active.</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>5. Your rights under Qatar PDPL</h2>
-        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Under Qatar's Personal Data Protection Law, you have the right to access your personal data, request correction of inaccurate data, request deletion of your data, and withdraw consent at any time. To exercise these rights, contact us at renewstoreqa@gmail.com</p>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Under Qatar's Personal Data Protection Law, you have the right to access your personal data, request correction of inaccurate data, request deletion of your data, and withdraw consent at any time. To exercise these rights, contact us at <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>6. Cookies</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>We use essential cookies only — these are required for the platform to function. We do not use advertising or tracking cookies.</p>
 
-        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>7. Contact</h2>
+        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>7. Changes to this Policy</h2>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>We may update this Privacy Policy from time to time. We will notify users of significant changes by email or by posting a notice on the platform. Continued use of Renew Store after changes constitutes acceptance of the updated Policy.</p>
+
+        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>8. Contact</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any privacy-related questions, please contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
       </div>
