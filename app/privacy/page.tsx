@@ -8,7 +8,7 @@ export default function Privacy() {
       </nav>
       <div style={{maxWidth:'760px', margin:'0 auto', padding:'60px 8%'}}>
         <h1 style={{fontFamily:'Georgia,serif', fontSize:'40px', fontWeight:'600', marginBottom:'8px', color:'#1E1E1E'}}>Privacy Policy</h1>
-        <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'40px'}}>Last updated: January 2025 · Governed by Qatar PDPL Law No. 13 of 2016</p>
+        <p style={{fontSize:'13px', color:'#7A7068', marginBottom:'40px'}}>Last updated: April 2026 · Governed by Qatar PDPL Law No. 13 of 2016</p>
 
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>1. Who we are</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store (CR No: 227458) is a marketplace platform operated in Qatar. We connect buyers and sellers of pre-loved goods. Our platform is governed by the laws of the State of Qatar, including the Personal Data Protection Law (PDPL) No. 13 of 2016.</p>
