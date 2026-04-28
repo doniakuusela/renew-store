@@ -1,5 +1,5 @@
 'use client'
-import Footer from '@/components/Footer'
+import Footer from '../../components/Footer'
 export default function Terms() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
