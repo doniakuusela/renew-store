@@ -53,7 +53,10 @@ export default function Terms() {
         <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>10. Account Suspension</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store reserves the right to suspend or terminate any account that violates these terms, engages in fraudulent activity, or negatively impacts other users or the platform.</p>
 
-        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>11. Contact</h2>
+        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>11. Changes to Terms</h2>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>Renew Store reserves the right to modify these Terms at any time. Continued use of the platform after changes constitutes acceptance of the updated Terms. We will notify users of significant changes by email or by posting a notice on the platform.</p>
+
+        <h2 style={{fontFamily:'Georgia,serif', fontSize:'24px', fontWeight:'600', marginBottom:'12px', marginTop:'32px', color:'#1E1E1E'}}>12. Contact</h2>
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any questions about these terms, contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
       </div>
