@@ -1,4 +1,5 @@
 'use client'
+import Footer from '@/components/Footer'
 export default function Privacy() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
@@ -35,6 +36,7 @@ export default function Privacy() {
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any privacy-related questions, please contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
       </div>
+      <Footer />
     </main>
   )
 }
