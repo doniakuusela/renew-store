@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Footer from '@/components/Footer'
 
 const faqs = [
   {
@@ -98,6 +99,7 @@ export default function FAQ() {
           <a href="mailto:renewstoreqa@gmail.com" style={{background:'#2D5A3D', color:'white', padding:'10px 24px', borderRadius:'2px', textDecoration:'none', fontSize:'13px', fontWeight:'500', display:'inline-block'}}>Email us</a>
         </div>
       </div>
+          <Footer />
     </main>
   )
 }
