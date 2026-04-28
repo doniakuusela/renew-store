@@ -15,7 +15,11 @@ export default function Auth() {
     if (isLogin) {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) setMessage(error.message)
-      else window.location.href = '/'
+      else {
+        const params = new URLSearchParams(window.location.search)
+        const redirect = params.get('redirect') || '/'
+        window.location.href = redirect
+      }
     } else {
       const { error } = await supabase.auth.signUp({ email, password })
       if (error) setMessage(error.message)

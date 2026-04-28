@@ -26,7 +26,15 @@ export default function Admin() {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!session || session.user.email !== ADMIN_EMAIL) {
+      if (!session) {
+        window.location.href = '/auth?redirect=/admin'
+        return
+      }
+      if (!session) {
+        window.location.href = '/auth?redirect=/admin'
+        return
+      }
+      if (session.user.email !== ADMIN_EMAIL) {
         window.location.href = '/'
         return
       }
@@ -78,7 +86,7 @@ export default function Admin() {
             to: sellerProfile.email,
             subject: '🎉 Your listing is live — Renew Store',
             message: `Great news! Your listing "${listing.title}" has been approved and is now live on Renew Store. Buyers can now see and purchase it!`,
-            type: 'order_confirmed'
+            type: 'new_message'
           })
         })
       }
