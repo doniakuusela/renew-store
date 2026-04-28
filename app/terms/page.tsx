@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 'use client'
 export default function Terms() {
   return (
@@ -60,6 +61,7 @@ export default function Terms() {
         <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.85', marginBottom:'16px'}}>For any questions about these terms, contact us at: <a href="mailto:renewstoreqa@gmail.com" style={{color:'#2D5A3D'}}>renewstoreqa@gmail.com</a></p>
 
       </div>
+       <Footer />
     </main>
   )
 }
