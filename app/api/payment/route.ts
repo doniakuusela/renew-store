@@ -20,8 +20,8 @@ export async function POST(request: Request) {
         MobileCountryCode: mobileCountryCode,
         CustomerMobile: customerMobile,
         NotificationOption: 'LNK',
-        CallBackUrl: 'https://renew-store.vercel.app/payment-success',
-        ErrorUrl: 'https://renew-store.vercel.app/payment-error',
+        CallBackUrl: 'https://renew-store.com/payment-success',
+        ErrorUrl: 'https://renew-store.com/payment-error',
         Language: 'en',
         DisplayCurrencyIso: 'QAR'
       })

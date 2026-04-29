@@ -54,7 +54,7 @@ export async function GET(request: Request) {
                 <li><strong>Buyer confirmed receipt:</strong> ${new Date(order.received_at).toLocaleString()}</li>
               </ul>
             </div>
-            <a href="https://renew-store.vercel.app/admin" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px;">Go to Admin Panel</a>
+            <a href="https://renew-store.com/admin" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px;">Go to Admin Panel</a>
           </div>
         `
       })

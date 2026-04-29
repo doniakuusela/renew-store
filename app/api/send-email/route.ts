@@ -19,8 +19,8 @@ export async function POST(request: Request) {
             <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 8px; color: #1E1E1E;">You have a new message</h2>
             <p style="font-size: 14px; color: #7A7068; line-height: 1.7;">${message}</p>
           </div>
-          <a href="https://renew-store.vercel.app/chat" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">View Message</a>
-          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.vercel.app/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
+          <a href="https://renew-store.com/chat" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">View Message</a>
+          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.com/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
         </div>
       `
     }
@@ -35,8 +35,8 @@ export async function POST(request: Request) {
             <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 8px; color: #2D5A3D;">✅ Payment confirmed!</h2>
             <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7;">${message}</p>
           </div>
-          <a href="https://renew-store.vercel.app/orders" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">View Order</a>
-          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.vercel.app/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
+          <a href="https://renew-store.com/orders" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">View Order</a>
+          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.com/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
         </div>
       `
     }
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
             <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7;">${message}</p>
           </div>
           <p style="font-size: 13px; color: #7A7068; text-align: center;">Our team will review your case and contact you within 24 hours.</p>
-          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.vercel.app/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
+          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.com/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
         </div>
       `
     }
