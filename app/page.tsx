@@ -213,8 +213,22 @@ export default function Home() {
               <a href="mailto:renewstoreqa@gmail.com" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px'}}>renewstoreqa@gmail.com</a>
             </div>
           </div>
-          <div style={{borderTop:'1px solid rgba(255,255,255,0.2)', paddingTop:'20px', fontSize:'11px', color:'rgba(255,255,255,0.6)', textAlign:'center'}}>
-            © 2026 Renew Store · Based in Doha, Qatar
+         <div style={{borderTop:'1px solid rgba(255,255,255,0.2)', paddingTop:'20px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'12px'}}>
+            <span style={{fontSize:'11px', color:'rgba(255,255,255,0.6)'}}>© 2026 Renew Store · Based in Doha, Qatar</span>
+            <div style={{display:'flex', gap:'16px', alignItems:'center'}}>
+              <a href="https://www.instagram.com/renewstoreqa?igsh=MjY3MTNlYnNvMnhj&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,0.6)', display:'flex', alignItems:'center'}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+              <a href="https://www.facebook.com/share/1CdTQ96maM/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,0.6)', display:'flex', alignItems:'center'}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </footer>
