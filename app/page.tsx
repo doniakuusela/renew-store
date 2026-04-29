@@ -7,7 +7,9 @@ const categoryEmojis: any = {
   'Furniture': '🛋️',
   'Kids': '🧸',
   'Sports': '🚴',
-  'Electronics': '📱',
+  'Designer': '💎',
+  'Hobbies & Collections': '🎨',
+  'Books & Games': '📚',
   'Other': '📦',
 }
 
@@ -19,7 +21,7 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false)
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const categories = ['All', "Women's Fashion", "Men's Fashion", 'Furniture', 'Kids', 'Sports']
+  const categories = ['All', "Women's Fashion", "Men's Fashion", 'Furniture', 'Kids', 'Sports', 'Designer', 'Hobbies & Collections', 'Books & Games']
   const filtered = products.filter(p => {
     const matchesCategory = category === 'All' || p.category === category
     const matchesSearch = !searchQuery || 
