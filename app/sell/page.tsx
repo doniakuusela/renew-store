@@ -14,6 +14,7 @@ export default function Sell() {
   const [location, setLocation] = useState('Doha')
   const [message, setMessage] = useState('')
   const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -32,26 +33,21 @@ export default function Sell() {
       setMessage('Maximum 5 images per listing')
       return
     }
-    
     setUploading(true)
     setMessage('')
-    
     const newUrls: string[] = []
     for (const file of files) {
       if (file.size > 5 * 1024 * 1024) {
         setMessage(`${file.name} is too large (max 5MB)`)
         continue
       }
-      
       const fileName = `${user.id}/${Date.now()}-${file.name}`
       const { error } = await supabase.storage.from('listing-images').upload(fileName, file)
-      
       if (!error) {
         const { data } = supabase.storage.from('listing-images').getPublicUrl(fileName)
         newUrls.push(data.publicUrl)
       }
     }
-    
     setImageUrls(prev => [...prev, ...newUrls])
     setMessage(`✅ ${newUrls.length} image(s) uploaded!`)
     setUploading(false)
@@ -89,7 +85,6 @@ export default function Sell() {
     if (error) {
       setMessage('Error: ' + error.message)
     } else {
-      // Notify admin
       await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,14 +95,40 @@ export default function Sell() {
           type: 'new_message'
         })
       })
-
-      setMessage('✅ Listing submitted! It will be reviewed and published shortly.')
-      setTimeout(() => window.location.href = '/my-listings', 1500)
+      setSubmitted(true)
     }
     setLoading(false)
   }
 
   if (!user) return <div style={{display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', fontFamily:'sans-serif'}}>Loading...</div>
+
+  if (submitted) return (
+    <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px'}}>
+      <div style={{background:'white', padding:'48px', borderRadius:'4px', textAlign:'center', maxWidth:'480px', width:'100%', boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
+        <div style={{fontSize:'64px', marginBottom:'16px'}}>✅</div>
+        <h1 style={{fontFamily:'Georgia, serif', fontSize:'28px', fontWeight:'300', marginBottom:'12px', color:'#1E1E1E'}}>Listing submitted!</h1>
+        <p style={{fontSize:'14px', color:'#4A4A4A', lineHeight:'1.7', marginBottom:'28px'}}>Your item will be reviewed and published within 24 hours.</p>
+        <div style={{display:'flex', flexDirection:'column', gap:'12px'}}>
+          <button onClick={() => {
+            setSubmitted(false)
+            setTitle('')
+            setDescription('')
+            setPrice('')
+            setCategory('Fashion')
+            setCondition('Like new')
+            setLocation('Doha')
+            setImageUrls([])
+            setMessage('')
+          }} style={{background:'#2D5A3D', color:'white', border:'none', padding:'14px', fontSize:'13px', fontWeight:'500', cursor:'pointer', borderRadius:'2px'}}>
+            ➕ Add another item
+          </button>
+          <button onClick={() => window.location.href='/my-listings'} style={{background:'none', border:'1.5px solid #D9CEBC', color:'#4A4A4A', padding:'14px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>
+            📋 View my listings
+          </button>
+        </div>
+      </div>
+    </main>
+  )
 
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', minHeight:'100vh', paddingTop:'68px'}}>
@@ -120,11 +141,8 @@ export default function Sell() {
         <p style={{fontSize:'15px', color:'rgba(255,255,255,0.7)', marginTop:'10px'}}>Free. Reviewed within 24 hours.</p>
       </div>
       <div style={{maxWidth:'680px', margin:'0 auto', padding:'48px 8%'}}>
-        
-        {/* IMAGE UPLOAD */}
         <div style={{marginBottom:'20px'}}>
           <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#1E1E1E', marginBottom:'6px'}}>Photos * (max 5)</label>
-          
           {imageUrls.length > 0 && (
             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(120px, 1fr))', gap:'10px', marginBottom:'10px'}}>
               {imageUrls.map((url, i) => (
@@ -136,7 +154,6 @@ export default function Sell() {
               ))}
             </div>
           )}
-          
           {imageUrls.length < 5 && (
             <label style={{display:'block', border:'2px dashed #D9CEBC', padding:'20px', textAlign:'center', cursor:'pointer', borderRadius:'4px', background:'white'}}>
               <div style={{fontSize:'28px', marginBottom:'6px'}}>📷</div>
@@ -146,7 +163,6 @@ export default function Sell() {
             </label>
           )}
         </div>
-
         <div style={{marginBottom:'20px'}}>
           <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#1E1E1E', marginBottom:'6px'}}>Title *</label>
           <input value={title} onChange={e => setTitle(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'11px 14px', fontSize:'14px', outline:'none', boxSizing:'border-box', background:'white', borderRadius:'2px'}} placeholder="e.g. IKEA desk"/>
