@@ -102,6 +102,9 @@ export default function Home() {
           {user ? (
             <>
               <span style={{fontSize:'14px', color:'#2D5A3D', fontWeight:'500'}}>👋 {user.email?.split('@')[0]}</span>
+              {user.email === 'renewstoreqa@gmail.com' && (
+                <button onClick={() => {window.location.href='/admin'; setMenuOpen(false)}} style={{background:'none', border:'1.5px solid #D9CEBC', padding:'12px', cursor:'pointer', borderRadius:'2px', fontSize:'14px', textAlign:'left'}}>⚙️ Admin</button>
+              )}
               <button onClick={() => {window.location.href='/sell'; setMenuOpen(false)}} style={{background:'none', border:'1.5px solid #D9CEBC', padding:'12px', cursor:'pointer', borderRadius:'2px', fontSize:'14px', textAlign:'left'}}>➕ Sell an item</button>
               <button onClick={() => {window.location.href='/orders'; setMenuOpen(false)}} style={{background:'none', border:'1.5px solid #D9CEBC', padding:'12px', cursor:'pointer', borderRadius:'2px', fontSize:'14px', textAlign:'left'}}>📦 My Orders</button>
               <button onClick={() => {window.location.href='/profile'; setMenuOpen(false)}} style={{background:'none', border:'1.5px solid #D9CEBC', padding:'12px', cursor:'pointer', borderRadius:'2px', fontSize:'14px', textAlign:'left'}}>👤 My Profile</button>
