@@ -15,6 +15,7 @@ const categoryEmojis: any = {
 
 export default function Home() {
   const [category, setCategory] = useState('All')
+  const [location, setLocation] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [user, setUser] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -22,13 +23,15 @@ export default function Home() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const categories = ['All', "Women's Fashion", "Men's Fashion", 'Furniture', 'Kids', 'Sports', 'Designer', 'Hobbies & Collections', 'Books & Games']
+  const locations = ['All', 'Doha (Central)', 'West Bay', 'The Pearl', 'Al Waab', 'Madinat Khalifa', 'Al Sadd', 'Al Rayyan', 'Lusail', 'Al Wakrah', 'Al Khor', 'Other']
   const filtered = products.filter(p => {
     const matchesCategory = category === 'All' || p.category === category
+    const matchesLocation = location === 'All' || p.location === location
     const matchesSearch = !searchQuery || 
       p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.category?.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+    return matchesCategory && matchesLocation && matchesSearch
   })
 
   useEffect(() => {
@@ -51,10 +54,7 @@ export default function Home() {
       .select('*')
       .eq('status', 'active')
       .order('created_at', { ascending: false })
-    
-    if (!error && data) {
-      setProducts(data)
-    }
+    if (!error && data) setProducts(data)
     setLoading(false)
   }
 
@@ -67,15 +67,14 @@ export default function Home() {
     <main style={{fontFamily:'Georgia, serif', background:'#F5F0E8', minHeight:'100vh'}}>
       <nav style={{background:'rgba(245,240,232,0.95)', borderBottom:'1px solid #D9CEBC', padding:'0 5%', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between', position:'fixed', top:0, left:0, right:0, zIndex:100, backdropFilter:'blur(12px)'}}>
         <div style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600'}}>🌿 Renew Store</div>
-        
         {!isMobile ? (
           <div style={{display:'flex', gap:'16px', alignItems:'center'}}>
             {user ? (
               <>
                 <span style={{fontSize:'13px', color:'#2D5A3D'}}>👋 {user.email?.split('@')[0]}</span>
                 {user.email === 'renewstoreqa@gmail.com' && (
-  <button onClick={() => window.location.href='/admin'} style={{background:'none', border:'none', color:'#7A7068', cursor:'pointer', fontSize:'13px'}}>Admin</button>
-)}
+                  <button onClick={() => window.location.href='/admin'} style={{background:'none', border:'none', color:'#7A7068', cursor:'pointer', fontSize:'13px'}}>Admin</button>
+                )}
                 <button onClick={() => window.location.href='/sell'} style={{background:'none', border:'none', color:'#7A7068', cursor:'pointer', fontSize:'13px'}}>Sell</button>
                 <button onClick={() => window.location.href='/orders'} style={{background:'none', border:'none', color:'#7A7068', cursor:'pointer', fontSize:'13px'}}>Orders</button>
                 <button onClick={() => window.location.href='/profile'} style={{background:'none', border:'none', color:'#7A7068', cursor:'pointer', fontSize:'13px'}}>Profile</button>
@@ -140,24 +139,32 @@ export default function Home() {
       <section id="listings" style={{padding: isMobile ? '40px 5%' : '60px 8%', background:'white'}}>
         <p style={{fontSize:'11px', color:'#3D7A54', letterSpacing:'0.14em', textTransform:'uppercase', marginBottom:'8px'}}>Browse items</p>
         <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'24px', flexWrap:'wrap', gap:'12px'}}>
-          <div style={{marginBottom:'24px'}}>
-          <input
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder="🔍 Search for items..."
-            style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'14px 18px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'4px', fontFamily:'sans-serif', background:'white'}}
-          />
-        </div>
-          <h2 style={{fontSize: isMobile ? '28px' : '44px', fontWeight:'300', lineHeight:'1.15'}}>Fresh <em style={{color:'#2D5A3D'}}>finds</em></h2>
-          <div style={{display:'flex', gap:'8px', flexWrap:'wrap'}}>
+          <div style={{width:'100%', marginBottom:'8px'}}>
+            <input
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="🔍 Search for items..."
+              style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'14px 18px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'4px', fontFamily:'sans-serif', background:'white'}}
+            />
+          </div>
+          <h2 style={{fontSize: isMobile ? '28px' : '44px', fontWeight:'300', lineHeight:'1.15', width:'100%'}}>Fresh <em style={{color:'#2D5A3D'}}>finds</em></h2>
+          <div style={{display:'flex', gap:'8px', flexWrap:'wrap', width:'100%'}}>
             {categories.map(cat => (
               <button key={cat} onClick={() => setCategory(cat)} style={{padding:'6px 12px', border:'1.5px solid', borderColor: category === cat ? '#2D5A3D' : '#D9CEBC', background: category === cat ? '#2D5A3D' : 'white', color: category === cat ? 'white' : '#7A7068', borderRadius:'50px', fontSize:'12px', cursor:'pointer'}}>
                 {cat}
               </button>
             ))}
           </div>
+          <div style={{display:'flex', gap:'8px', flexWrap:'wrap', width:'100%', alignItems:'center'}}>
+            <span style={{fontSize:'11px', color:'#7A7068', textTransform:'uppercase', letterSpacing:'0.08em'}}>📍 Area:</span>
+            {locations.map(loc => (
+              <button key={loc} onClick={() => setLocation(loc)} style={{padding:'6px 12px', border:'1.5px solid', borderColor: location === loc ? '#2D5A3D' : '#D9CEBC', background: location === loc ? '#2D5A3D' : 'white', color: location === loc ? 'white' : '#7A7068', borderRadius:'50px', fontSize:'12px', cursor:'pointer'}}>
+                {loc}
+              </button>
+            ))}
+          </div>
         </div>
-        
+
         {loading ? (
           <p style={{textAlign:'center', padding:'40px', color:'#7A7068'}}>Loading items...</p>
         ) : filtered.length === 0 ? (
@@ -218,7 +225,7 @@ export default function Home() {
               <a href="mailto:renewstoreqa@gmail.com" style={{display:'block', color:'white', textDecoration:'none', fontSize:'13px'}}>renewstoreqa@gmail.com</a>
             </div>
           </div>
-         <div style={{borderTop:'1px solid rgba(255,255,255,0.2)', paddingTop:'20px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'12px'}}>
+          <div style={{borderTop:'1px solid rgba(255,255,255,0.2)', paddingTop:'20px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'12px'}}>
             <span style={{fontSize:'11px', color:'rgba(255,255,255,0.6)'}}>© 2026 Renew Store · Based in Doha, Qatar</span>
             <div style={{display:'flex', gap:'16px', alignItems:'center'}}>
               <a href="https://www.instagram.com/renewstoreqa?igsh=MjY3MTNlYnNvMnhj&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,0.6)', display:'flex', alignItems:'center'}}>
