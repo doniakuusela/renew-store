@@ -7,7 +7,7 @@ function StatusBadge({ status }: { status: string }) {
     active: { bg: '#EBF2EC', color: '#2D5A3D', text: '✅ Active' },
     pending: { bg: '#FEF3C7', color: '#D97706', text: '⏳ Pending approval' },
     sold: { bg: '#F5F0E8', color: '#7A7068', text: '💰 Sold' },
-    paused: { bg: '#F5F0E8', color: '#7A7068', text: '⏸️ Paused' },
+    paused: { bg: '#F5F0E8', color: '#7A7068', text: '⏸ Paused' },
   }
   const s = styles[status] || { bg: '#F5F0E8', color: '#7A7068', text: status }
   return <span style={{background:s.bg, color:s.color, padding:'4px 10px', borderRadius:'2px', fontSize:'11px', fontWeight:'600'}}>{s.text}</span>
@@ -21,6 +21,7 @@ export default function MyListings() {
   const [editTitle, setEditTitle] = useState('')
   const [editPrice, setEditPrice] = useState('')
   const [editDescription, setEditDescription] = useState('')
+  const [editLocation, setEditLocation] = useState('')
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -48,6 +49,7 @@ export default function MyListings() {
     setEditTitle(listing.title)
     setEditPrice(listing.price.toString())
     setEditDescription(listing.description || '')
+    setEditLocation(listing.location || 'Doha')
   }
 
   async function saveEdit(id: string) {
@@ -55,6 +57,7 @@ export default function MyListings() {
       title: editTitle,
       price: parseFloat(editPrice),
       description: editDescription,
+      location: editLocation,
       status: 'pending'
     }).eq('id', id)
 
@@ -63,7 +66,7 @@ export default function MyListings() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         to: 'renewstoreqa@gmail.com',
-        subject: '📝 Listing edited — needs approval',
+        subject: '🔔 Listing edited — needs approval',
         message: `A seller edited their listing "${editTitle}". Please review it in the admin panel.`,
         type: 'new_message'
       })
@@ -106,7 +109,7 @@ export default function MyListings() {
 
         {listings.length === 0 ? (
           <div style={{background:'white', padding:'60px 20px', borderRadius:'4px', textAlign:'center'}}>
-            <div style={{fontSize:'48px', marginBottom:'12px'}}>📦</div>
+            <div style={{fontSize:'48px', marginBottom:'12px'}}>📋</div>
             <h3 style={{fontFamily:'Georgia, serif', fontSize:'22px', fontWeight:'300', marginBottom:'8px'}}>No listings yet</h3>
             <p style={{fontSize:'14px', color:'#7A7068', marginBottom:'20px'}}>Add your first item to start selling</p>
             <button onClick={() => window.location.href='/sell'} style={{background:'#2D5A3D', color:'white', border:'none', padding:'12px 24px', fontSize:'13px', cursor:'pointer', borderRadius:'2px'}}>Add listing</button>
@@ -123,7 +126,22 @@ export default function MyListings() {
                   <input type="number" value={editPrice} onChange={e => setEditPrice(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'10px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px', marginBottom:'12px'}}/>
                   
                   <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Description</label>
-                  <textarea value={editDescription} onChange={e => setEditDescription(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'10px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px', minHeight:'80px', resize:'vertical', fontFamily:'sans-serif', marginBottom:'14px'}}/>
+                  <textarea value={editDescription} onChange={e => setEditDescription(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'10px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px', minHeight:'80px', resize:'vertical', fontFamily:'sans-serif', marginBottom:'12px'}}/>
+
+                  <label style={{display:'block', fontSize:'11px', fontWeight:'600', textTransform:'uppercase', color:'#7A7068', marginBottom:'6px'}}>Location</label>
+                  <select value={editLocation} onChange={e => setEditLocation(e.target.value)} style={{width:'100%', border:'1.5px solid #D9CEBC', padding:'10px', fontSize:'14px', outline:'none', boxSizing:'border-box', borderRadius:'2px', marginBottom:'12px'}}>
+                    <option>Doha (Central)</option>
+                    <option>West Bay</option>
+                    <option>The Pearl</option>
+                    <option>Al Waab</option>
+                    <option>Madinat Khalifa</option>
+                    <option>Al Sadd</option>
+                    <option>Al Rayyan</option>
+                    <option>Lusail</option>
+                    <option>Al Wakrah</option>
+                    <option>Al Khor</option>
+                    <option>Other</option>
+                  </select>
                   
                   <p style={{fontSize:'11px', color:'#D97706', marginBottom:'12px'}}>⚠️ Edits require admin re-approval before going live.</p>
                   
@@ -151,7 +169,7 @@ export default function MyListings() {
                   <div style={{display:'flex', gap:'8px', flexWrap:'wrap'}}>
                     <button onClick={() => startEdit(listing)} style={{background:'none', border:'1.5px solid #D9CEBC', color:'#4A4A4A', padding:'8px 14px', fontSize:'12px', cursor:'pointer', borderRadius:'2px', fontWeight:'500'}}>✏️ Edit</button>
                     {listing.status === 'active' && (
-                      <button onClick={() => toggleStatus(listing.id, listing.status)} style={{background:'none', border:'1.5px solid #D9CEBC', color:'#4A4A4A', padding:'8px 14px', fontSize:'12px', cursor:'pointer', borderRadius:'2px', fontWeight:'500'}}>⏸️ Pause</button>
+                      <button onClick={() => toggleStatus(listing.id, listing.status)} style={{background:'none', border:'1.5px solid #D9CEBC', color:'#4A4A4A', padding:'8px 14px', fontSize:'12px', cursor:'pointer', borderRadius:'2px', fontWeight:'500'}}>⏸ Pause</button>
                     )}
                     {listing.status === 'paused' && (
                       <button onClick={() => toggleStatus(listing.id, listing.status)} style={{background:'none', border:'1.5px solid #2D5A3D', color:'#2D5A3D', padding:'8px 14px', fontSize:'12px', cursor:'pointer', borderRadius:'2px', fontWeight:'500'}}>▶️ Activate</button>
