@@ -15,6 +15,7 @@ export default function PaymentSuccess() {
       const productEmoji = params.get('emoji') || '📦'
       const sellerEmail = params.get('seller_email') || 'renewstoreqa@gmail.com'
       const amount = parseFloat(params.get('amount') || '0')
+      const listingId = params.get('listing_id') || ''
 
       const { data, error } = await supabase.from('orders').insert({
         buyer_id: session.user.id,
@@ -27,6 +28,10 @@ export default function PaymentSuccess() {
       }).select().single()
 
       if (!error) {
+        if (listingId) {
+          await supabase.from('listings').update({ status: 'sold' }).eq('id', listingId)
+        }
+
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
