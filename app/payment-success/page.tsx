@@ -32,6 +32,13 @@ export default function PaymentSuccess() {
           await supabase.from('listings').update({ status: 'sold' }).eq('id', listingId)
         }
 
+        // Create initial chat message
+        await supabase.from('chat_messages').insert({
+          order_id: data.id,
+          sender_email: 'renewstoreqa@gmail.com',
+          message: `Hi! Your order for "${productTitle}" has been confirmed. Please use this chat to arrange the pickup with the seller. 🌿`
+        })
+
         await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
