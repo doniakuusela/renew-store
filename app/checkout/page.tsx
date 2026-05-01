@@ -14,11 +14,13 @@ export default function Checkout() {
     // Get product info from URL
     const params = new URLSearchParams(window.location.search)
     const productId = params.get('product')
+    const listingId = params.get('listing_id')
     const amount = params.get('amount')
     const title = params.get('title')
-    const seller = params.get('seller')
+    const sellerEmail = params.get('seller_email')
+    const emoji = params.get('emoji')
     if (amount && title) {
-      setProduct({ id: productId, amount: parseFloat(amount || '0'), title: decodeURIComponent(title || ''), seller: decodeURIComponent(seller || '') })
+      setProduct({ id: productId, listing_id: listingId, amount: parseFloat(amount || '0'), title: decodeURIComponent(title || ''), seller_email: decodeURIComponent(sellerEmail || ''), emoji: decodeURIComponent(emoji || '📦') })
     }
 
     // Auto-fill user info
@@ -34,10 +36,11 @@ export default function Checkout() {
     setLoading(true)
     setMessage('')
     try {
+      const successUrl = `https://renew-store.com/payment-success?title=${encodeURIComponent(product?.title || '')}&emoji=${encodeURIComponent(product?.emoji || '📦')}&seller_email=${encodeURIComponent(product?.seller_email || '')}&amount=${product?.amount}&listing_id=${product?.listing_id}`
       const response = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, amount: product?.amount || 100 })
+        body: JSON.stringify({ name, email, phone, amount: product?.amount || 100, successUrl })
       })
       const data = await response.json()
       if (data.url) {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, amount } = await request.json()
+    const { name, email, phone, amount, successUrl } = await request.json()
 
     const mobileCountryCode = '974'
     const customerMobile = (phone.startsWith('974') ? phone.slice(3) : phone).slice(0, 11)
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
         MobileCountryCode: mobileCountryCode,
         CustomerMobile: customerMobile,
         NotificationOption: 'LNK',
-        CallBackUrl: 'https://renew-store.com/payment-success',
+        CallBackUrl: successUrl || 'https://renew-store.com/payment-success',
         ErrorUrl: 'https://renew-store.com/payment-error',
         Language: 'en',
         DisplayCurrencyIso: 'QAR'

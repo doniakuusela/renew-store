@@ -84,7 +84,7 @@ export default function Product({ params }: { params: Promise<{ id: string }> })
     }
     const emoji = categoryEmojis[product.category] || '📦'
     const sellerEmail = seller?.email || 'renewstoreqa@gmail.com'
-    window.location.href = `/checkout?product=${product.id}&amount=${product.price}&title=${encodeURIComponent(product.title)}&emoji=${encodeURIComponent(emoji)}&seller_email=${encodeURIComponent(sellerEmail)}`
+    window.location.href = `/checkout?product=${product.id}&listing_id=${product.id}&amount=${product.price}&title=${encodeURIComponent(product.title)}&emoji=${encodeURIComponent(emoji)}&seller_email=${encodeURIComponent(sellerEmail)}`
   }
 
   const images = product.image_urls && product.image_urls.length > 0 
