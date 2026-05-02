@@ -9,7 +9,7 @@ export default function PaymentSuccess() {
     async function createOrder() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user?.email) return
-
+console.log('Payment success params:', window.location.search)
       const params = new URLSearchParams(window.location.search)
       const productTitle = params.get('title') || 'Item'
       const productEmoji = params.get('emoji') || '📦'
