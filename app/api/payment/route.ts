@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const mobileCountryCode = '974'
     const customerMobile = (phone.startsWith('974') ? phone.slice(3) : phone).slice(0, 11)
 
-    const response = await fetch('https://api-qa.myfatoorah.com/v2/SendPayment', {
+    const response = await fetch('https://api.myfatoorah.com/v2/SendPayment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
