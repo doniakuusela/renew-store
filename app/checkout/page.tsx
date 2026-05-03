@@ -46,7 +46,7 @@ export default function Checkout() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        setMessage('Payment error: ' + data.error)
+        setMessage('Payment error: ' + data.error + (data.validation ? ' | ' + JSON.stringify(data.validation) : '') + (data.details ? ' | ' + JSON.stringify(data.details) : ''))
       }
     } catch (err) {
       setMessage('Something went wrong. Please try again.')
