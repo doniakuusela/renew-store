@@ -25,10 +25,12 @@ export default function Checkout() {
 
     // Auto-fill user info
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setEmail(session.user.email || '')
-        setName(session.user.user_metadata?.full_name || '')
+      if (!session) {
+        window.location.href = '/auth'
+        return
       }
+      setEmail(session.user.email || '')
+      setName(session.user.user_metadata?.full_name || '')
     })
   }, [])
 
