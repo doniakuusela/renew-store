@@ -9,13 +9,13 @@ export default function PaymentSuccess() {
     async function createOrder() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user?.email) return
-console.log('Payment success params:', window.location.search)
+
       const params = new URLSearchParams(window.location.search)
       const productTitle = params.get('title') || 'Item'
       const productEmoji = params.get('emoji') || '📦'
       const sellerEmail = params.get('seller_email') || 'renewstoreqa@gmail.com'
       const amount = parseFloat(params.get('amount') || '0')
-      const listingId = params.get('listing_id') || ''
+      const listingId = params.get('product') || ''
 
       const { data, error } = await supabase.from('orders').insert({
         buyer_id: session.user.id,
@@ -28,16 +28,10 @@ console.log('Payment success params:', window.location.search)
       }).select().single()
 
       if (!error) {
+        // Mark listing as sold
         if (listingId) {
           await supabase.from('listings').update({ status: 'sold' }).eq('id', listingId)
         }
-
-        // Create initial chat message
-        await supabase.from('chat_messages').insert({
-          order_id: data.id,
-          sender_email: 'renewstoreqa@gmail.com',
-          message: `Hi! Your order for "${productTitle}" has been confirmed. Please use this chat to arrange the pickup with the seller. 🌿`
-        })
 
         await fetch('/api/send-email', {
           method: 'POST',
@@ -67,7 +61,7 @@ console.log('Payment success params:', window.location.search)
           body: JSON.stringify({
             to: 'renewstoreqa@gmail.com',
             subject: '💰 New order — Renew Store',
-            message: `New order #${data.id}: ${productTitle} · QAR ${amount} · Buyer: ${session.user.email} · Seller: ${sellerEmail}`,
+            message: `New order: ${productTitle} · QAR ${amount} · Buyer: ${session.user.email} · Seller: ${sellerEmail}`,
             type: 'order_confirmed'
           })
         })
