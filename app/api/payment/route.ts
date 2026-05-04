@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const mobileCountryCode = '974'
     const customerMobile = (phone.startsWith('974') ? phone.slice(3) : phone).slice(0, 11)
 
-    const response = await fetch('https://api.myfatoorah.com/v2/SendPayment', {
+    const response = await fetch('https://api-qa.myfatoorah.com/v2/SendPayment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     if (!data.IsSuccess) {
       console.log('MyFatoorah error:', JSON.stringify(data))
-      return NextResponse.json({ error: data.Message, details: data }, { status: 400 })
+      return NextResponse.json({ error: data.Message, details: data, validation: data.ValidationErrors }, { status: 400 })
     }
 
     return NextResponse.json({ url: data.Data.InvoiceURL })
