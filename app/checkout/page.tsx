@@ -39,7 +39,7 @@ export default function Checkout() {
     setMessage('')
     try {
       // Save pending order before payment
-      const { data: pending } = await supabase.from('pending_orders').insert({
+      const { data: pending, error: pendingError } = await supabase.from('pending_orders').insert({
         buyer_email: email,
         seller_email: product?.seller_email || '',
         product_title: product?.title || '',
@@ -47,6 +47,8 @@ export default function Checkout() {
         amount: product?.amount || 0,
         listing_id: product?.listing_id || ''
       }).select().single()
+
+      console.log('Pending order result:', pending, pendingError)
 
       const successUrl = `https://renew-store.com/payment-success?title=${encodeURIComponent(product?.title || '')}&emoji=${encodeURIComponent(product?.emoji || '📦')}&seller_email=${encodeURIComponent(product?.seller_email || '')}&amount=${product?.amount}&listing_id=${product?.listing_id}&pending_id=${pending?.id}`
       const response = await fetch('/api/payment', {
