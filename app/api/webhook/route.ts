@@ -17,6 +17,8 @@ export async function POST(request: Request) {
     const invoiceStatus = body.Data?.Invoice?.Status
     const customerEmail = body.Data?.Customer?.Email
     const userDefinedField = body.Data?.Invoice?.UserDefinedField || ''
+    console.log('UserDefinedField:', userDefinedField)
+    console.log('Invoice data:', JSON.stringify(body.Data?.Invoice))
 
     if (invoiceStatus === 'PAID' && userDefinedField) {
       const urlParams = new URL(userDefinedField)
