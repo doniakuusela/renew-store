@@ -28,8 +28,16 @@ export async function POST(request: Request) {
       }
 
       if (pending) {
+        // Get buyer_id from profiles
+        const { data: buyerProfile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('email', pending.buyer_email)
+          .single()
+
         // Create order
         const { data: order, error } = await supabase.from('orders').insert({
+          buyer_id: buyerProfile?.id || null,
           buyer_email: pending.buyer_email,
           seller_email: pending.seller_email,
           product_title: pending.product_title,
