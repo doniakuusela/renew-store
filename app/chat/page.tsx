@@ -71,7 +71,7 @@ export default function Chat() {
     const { error } = await supabase.from('chat_messages').insert({
       order_id: selectedOrder.id,
       sender_id: user.id,
-      content: newMessage,
+      message: newMessage,
       buyer_email: selectedOrder.buyer_email,
       seller_email: selectedOrder.seller_email
     })
@@ -173,7 +173,7 @@ export default function Chat() {
                       <div key={msg.id} style={{display:'flex', justifyContent: isMe ? 'flex-end' : 'flex-start'}}>
                         <div style={{maxWidth:'65%'}}>
                           <div style={{padding:'11px 15px', borderRadius:'12px', fontSize:'13px', lineHeight:'1.55', background: isMe ? '#2D5A3D' : 'white', color: isMe ? 'white' : '#1E1E1E', borderBottomRightRadius: isMe ? '3px' : '12px', borderBottomLeftRadius: isMe ? '12px' : '3px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)'}}>
-                            {msg.content}
+                            {msg.message || msg.content}
                           </div>
                           <div style={{fontSize:'10px', color:'#7A7068', marginTop:'4px', textAlign: isMe ? 'right' : 'left'}}>
                             {new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}
