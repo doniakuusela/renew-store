@@ -44,6 +44,7 @@ export async function POST(request: Request) {
         product_title: pending.product_title,
         product_emoji: pending.product_emoji,
         amount: pending.amount,
+        listing_id: pending.listing_id || null,
         status: 'confirmed'
       }).select().single()
 
