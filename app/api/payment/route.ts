@@ -21,6 +21,7 @@ export async function POST(request: Request) {
         CustomerMobile: customerMobile,
         NotificationOption: 'LNK',
         CallBackUrl: successUrl || 'https://renew-store.com/payment-success',
+        UserDefinedField: successUrl || '',
         ErrorUrl: 'https://renew-store.com/payment-error',
         Language: 'en',
         DisplayCurrencyIso: 'QAR'

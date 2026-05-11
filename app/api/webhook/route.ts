@@ -12,18 +12,20 @@ export async function POST(request: Request) {
     console.log('Webhook received:', JSON.stringify(body))
 
     const invoiceStatus = body.Data?.Invoice?.Status
-    const invoiceId = body.Data?.Invoice?.Id
     const customerEmail = body.Data?.Customer?.Email
+    const userDefinedField = body.Data?.Invoice?.UserDefinedField || ''
 
-    if (invoiceStatus === 'PAID') {
-      // Find pending order by buyer email
-      const { data: pending } = await supabase
-        .from('pending_orders')
-        .select('*')
-        .eq('buyer_email', customerEmail)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+    if (invoiceStatus === 'PAID' && userDefinedField) {
+      // Extract data from UserDefinedField (successUrl)
+      const urlParams = new URL(userDefinedField)
+      const pending = {
+        buyer_email: customerEmail,
+        seller_email: decodeURIComponent(urlParams.searchParams.get('seller_email') || ''),
+        product_title: decodeURIComponent(urlParams.searchParams.get('title') || 'Item'),
+        product_emoji: decodeURIComponent(urlParams.searchParams.get('emoji') || '📦'),
+        amount: parseFloat(urlParams.searchParams.get('amount') || '0'),
+        listing_id: urlParams.searchParams.get('listing_id') || ''
+      }
 
       if (pending) {
         // Create order
@@ -49,8 +51,7 @@ export async function POST(request: Request) {
             message: `Hi! Your order for "${pending.product_title}" has been confirmed. Please use this chat to arrange the pickup with the seller. 🌿`
           })
 
-          // Delete pending order
-          await supabase.from('pending_orders').delete().eq('id', pending.id)
+
 
           // Send emails
           await fetch('https://renew-store.com/api/send-email', {
