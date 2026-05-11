@@ -99,7 +99,7 @@ export default function Chat() {
   return (
     <main style={{fontFamily:'sans-serif', background:'#F5F0E8', height:'100vh', display:'flex', flexDirection:'column'}}>
       <nav style={{background:'rgba(245,240,232,0.95)', borderBottom:'1px solid #D9CEBC', padding:'0 5%', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0}}>
-        <div style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600'}}>🌿 Renew Store</div>
+        <div style={{fontSize:'22px', color:'#2D5A3D', fontWeight:'600', cursor:'pointer'}} onClick={() => window.location.href='/'}>🌿 Renew Store</div>
         <a href="/" style={{fontSize:'13px', color:'#7A7068', textDecoration:'none'}}>← Back to listings</a>
       </nav>
 
