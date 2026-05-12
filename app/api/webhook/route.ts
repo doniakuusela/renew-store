@@ -65,8 +65,8 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             to: pending.buyer_email,
             subject: '✅ Payment confirmed — Renew Store',
-            message: `Your payment of QAR ${pending.amount} for "${pending.product_title}" has been confirmed! The seller will contact you via chat to arrange pickup.`,
-            type: 'order_confirmed'
+            message: `Your payment of QAR ${pending.amount} for "${pending.product_title}" has been confirmed!`,
+            type: 'order_confirmed_buyer'
           })
         })
 
@@ -76,8 +76,8 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             to: pending.seller_email,
             subject: '🛍️ You have a new order — Renew Store',
-            message: `Great news! "${pending.product_title}" sold for QAR ${pending.amount}. Please contact the buyer via chat to arrange pickup.`,
-            type: 'order_confirmed'
+            message: `"${pending.product_title}" sold for QAR ${pending.amount}. 🎉`,
+            type: 'order_confirmed_seller'
           })
         })
 

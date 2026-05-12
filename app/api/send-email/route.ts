@@ -41,6 +41,40 @@ export async function POST(request: Request) {
       `
     }
 
+    if (type === 'order_confirmed_buyer') {
+      html = `
+        <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h1 style="color: #2D5A3D; font-size: 24px; font-weight: 300; font-family: Georgia, serif;">🌿 Renew Store</h1>
+          </div>
+          <div style="background: #EBF2EC; padding: 24px; border-radius: 4px; margin-bottom: 24px;">
+            <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 8px; color: #2D5A3D;">✅ Payment confirmed!</h2>
+            <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7;">${message}</p>
+            <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7; margin-top: 12px;">The seller will contact you shortly via chat to arrange pickup. You can also reach out first.</p>
+          </div>
+          <a href="https://renew-store.com/chat" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">Contact Seller →</a>
+          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.com/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
+        </div>
+      `
+    }
+
+    if (type === 'order_confirmed_seller') {
+      html = `
+        <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h1 style="color: #2D5A3D; font-size: 24px; font-weight: 300; font-family: Georgia, serif;">🌿 Renew Store</h1>
+          </div>
+          <div style="background: #EBF2EC; padding: 24px; border-radius: 4px; margin-bottom: 24px;">
+            <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 8px; color: #2D5A3D;">🛍️ You have a new order!</h2>
+            <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7;">${message}</p>
+            <p style="font-size: 14px; color: #4A4A4A; line-height: 1.7; margin-top: 12px;">Contact the buyer now via chat to arrange pickup.</p>
+          </div>
+          <a href="https://renew-store.com/chat" style="display: block; text-align: center; background: #2D5A3D; color: white; padding: 14px 32px; text-decoration: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em;">Contact Buyer →</a>
+          <p style="text-align: center; font-size: 11px; color: #7A7068; margin-top: 24px;">Renew Store · Qatar's Marketplace · <a href="https://renew-store.com/privacy" style="color: #2D5A3D;">Privacy Policy</a></p>
+        </div>
+      `
+    }
+
     if (type === 'dispute_opened') {
       html = `
         <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
